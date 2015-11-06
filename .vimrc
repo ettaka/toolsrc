@@ -28,5 +28,6 @@ nnoremap <leader>' viw<esc>a'<esc>bi'<esc>
 nnoremap <leader>; `<i'<esc>`>a'<esc>
 nnoremap <leader>H 0
 nnoremap <leader>L $
-
+inoremap jj <esc>
+inoremap <esc> <nop>
 iabbrev @@ eelis.takala@gmail.com
