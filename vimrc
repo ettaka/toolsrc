@@ -43,6 +43,11 @@ inoremap jj <esc>
 inoremap <esc> <nop>
 " }}}
 
+" Test Mappings ---------- {{{
+nnoremap <leader>g :silent execute ":grep -R " . shellescape(expand("<cWORD>")) . " ."<cr>
+     \:execute "copen 5"<cr>
+" }}}
+
 iabbrev @@ eelis.takala@gmail.com
 
 " Python file settings ---------- {{{
