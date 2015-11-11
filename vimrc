@@ -56,5 +56,19 @@ augroup END
 augroup filetype_vim
   autocmd!
   autocmd FileType vim setlocal foldmethod=marker
+  autocmd FileType vim setlocal tabstop=2
+  autocmd FileType vim setlocal shiftwidth=2
+  autocmd FileType vim nnoremap <buffer> <localleader>c 0i" <esc>
 augroup END
 " }}}
+
+nnoremap <leader>f :call FoldColumnToggle()<cr>
+
+function! FoldColumnToggle()
+	if &foldcolumn
+		setlocal foldcolumn=0
+	else
+		setlocal foldcolumn=4
+	endif
+endfunction
+
