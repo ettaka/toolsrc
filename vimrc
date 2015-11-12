@@ -45,6 +45,20 @@ inoremap <esc> <nop>
 
 iabbrev @@ eelis.takala@gmail.com
 
+" Fortran file settings ---------- {{{
+augroup filetype_fortran
+  autocmd!
+  autocmd FileType fortran nnoremap <buffer> <localleader>c 0i!<esc>
+augroup END
+" }}}
+
+" Elmer Sif file settings ---------- {{{
+augroup filetype_sif
+  autocmd!
+  autocmd FileType sif nnoremap <buffer> <localleader>c 0i!<esc>
+augroup END
+" }}}
+
 " Python file settings ---------- {{{
 augroup filetype_python
   autocmd!
@@ -56,5 +70,6 @@ augroup END
 augroup filetype_vim
   autocmd!
   autocmd FileType vim setlocal foldmethod=marker
+  autocmd FileType vim nnoremap <buffer> <localleader>c 0i" <esc>
 augroup END
 " }}}
