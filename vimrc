@@ -53,6 +53,7 @@ iabbrev @@ eelis.takala@gmail.com
 " Fortran file settings ---------- {{{
 augroup filetype_fortran
   autocmd!
+	autocmd FileType fortran set foldmethod=syntax
   autocmd FileType fortran nnoremap <buffer> <localleader>c 0i!<esc>
 augroup END
 " }}}
@@ -60,6 +61,7 @@ augroup END
 " Elmer Sif file settings ---------- {{{
 augroup filetype_sif
   autocmd!
+	autocmd FileType sif set foldmethod=syntax
   autocmd FileType sif nnoremap <buffer> <localleader>c 0i!<esc>
 augroup END
 " }}}
@@ -84,10 +86,10 @@ augroup END
 nnoremap <leader>f :call FoldColumnToggle()<cr>
 
 function! FoldColumnToggle()
-	if &foldcolumn
-		setlocal foldcolumn=0
+	if &foldlevel
+		setlocal foldlevel=0
 	else
-		setlocal foldcolumn=4
+		setlocal foldlevel=1
 	endif
 endfunction
 

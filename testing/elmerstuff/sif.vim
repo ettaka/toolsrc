@@ -1,4 +1,14 @@
+" Vim syntax highlighing for ElmerFEM Solver Input Files (SIF).
+" 
+" Author: Eelis Takala
+" Original Date: November 2015
+" email: eelis.takala@gmail.com 
+" 
+if exists("b:current_syntax")
+  finish
+endif
 
+" Helper functions -------------------------{{{
 function! AddToSet(set_list, element)
 	if index(a:set_list,a:element)==-1
 		call add(a:set_list, a:element)
@@ -12,12 +22,10 @@ function! ListToString(set_list)
 	endfor
 	return string
 endfunction
-
-if exists("b:current_syntax")
-	finish
-end
-
-let filecontents=readfile("SOLVER.KEYWORDS")
+" --------}}}
+" Search for keywords -------------------------------------- {{{
+let keyword_path='/home/eelis/.vim/syntax/'
+let filecontents=readfile(keyword_path . "SOLVER.KEYWORDS")
 let sif_lists=[]
 let sif_keys=[]
 let sif_types=[]
@@ -33,28 +41,76 @@ for line in filecontents
 	endif 
 endfor
 
+call AddToSet(sif_keys, 'exported variable')
+call AddToSet(sif_keys, 'permittivity of vacuum')
+call AddToSet(sif_keys, 'mesh db')
+call AddToSet(sif_keys, 'Check Keywords')
+call AddToSet(sif_keys, 'include')
+" }}}
+" Match Keywords ------------------------------------{{{
 for sif_key in sif_keys
-	execute ('syntax match sifKeyword "\c' . sif_key . '.*="')
+	execute ('syntax match sifKeyword "\c' . sif_key . '"')
 endfor
-
-for sif_list in sif_lists
-	execute ('syntax match sifList "\c' . sif_list . '"')
-endfor
-
+" ------------------------------------------------}}}
+" Match Types --------------------------{{{
 for sif_type in sif_types
 	execute ('syntax match sifType "\c' . sif_type . '"')
 endfor
+" ------------------}}}
+" Match numbers and strings -----------------------------{{{
+syn match sifNumber	display "\<\d\+\(_\a\w*\)\=\>"
+syn match sifFloatIll	display	"\c\<\d\+[deq][-+]\=\d\+\(_\a\w*\)\=\>"
+" floating point number, starting with a decimal point
+syn match sifFloatIll	display	"\c\.\d\+\([deq][-+]\=\d\+\)\=\(_\a\w*\)\=\>"
+" floating point number, no digits after decimal
+syn match sifFloatIll	display	"\c\<\d\+\.\([deq][-+]\=\d\+\)\=\(_\a\w*\)\=\>"
+" floating point number, D or Q exponents
+syn match sifFloatIll	display	"\c\<\d\+\.\d\+\([dq][-+]\=\d\+\)\=\(_\a\w*\)\=\>"
+" floating point number
+syn match sifFloat	display	"\c\<\d\+\.\d\+\(e[-+]\=\d\+\)\=\(_\a\w*\)\=\>"
 
-syntax match sifInteger "[0-9]*\s\+"
+syntax match sifBoolean "\ctrue"
+syntax match sifBoolean "\cfalse"
+
+syntax match sifOperator "="
 syntax region sifString start=/\v"/ skip=/\v\\./ end=/\v"/
+" -------------------------------------------------------}}}
+" Match Operators-----------------------------{{{
+syntax match sifOperator "\(=\|-\|+\)"
+syntax region sifString start=/\v"/ skip=/\v\\./ end=/\v"/
+" -------------------------------------------------------}}}
+" Match Comments ----------------------{{{
 syntax match sifComment "\v!.*$"
-
+" ----------------}}}
+" Match Lists ---------------------------------------------{{{
+let test_lists=[]
+call AddToSet(test_lists, 'boundary condition')
+call AddToSet(test_lists, 'simulation')
+call AddToSet(test_lists, 'header')
+call AddToSet(test_lists, 'constants')
+call AddToSet(test_lists, 'solver')
+call AddToSet(test_lists, 'equation')
+call AddToSet(test_lists, 'material')
+call AddToSet(test_lists, 'body')
+call AddToSet(test_lists, 'component')
+for test_list in test_lists
+  let cmd="syntax region sifListBlock matchgroup=sifLB start='\\c". test_list . "' end='\\c\\(::\\|End\\)' fold contains=sifKeyword,sifString,sifNumber,sifType,sifFloat,sifFloatIll,sifOperator,sifBoolean"
+  execute(cmd)
+endfor
+" -----------------------------------------------------}}}
+" Highlights -------------------------------------- {{{
 highlight link sifString String
 highlight link sifKeyword Keyword
 highlight link sifList Structure
+highlight link sifLB Structure
 highlight link sifComment Comment
 highlight link sifType Type 
-" highlight link sifInteger Number
+highlight link sifNumber Number
+highlight link sifFloat Float
+highlight link sifFloatIll Float
+highlight link sifOperator Operator
+highlight link sifBoolean Boolean
+" }}}
 
 let b:current_syntax = "sif"
 
