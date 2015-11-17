@@ -7,12 +7,13 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'Valloric/YouCompleteMe'
+" Plugin 'Valloric/YouCompleteMe'
 Plugin 'tpope/vim-fugitive'
 Plugin 'scrooloose/nerdtree'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'digitaltoad/vim-jade'
 Plugin 'wavded/vim-stylus'
+Plugin 'ettaka/vim-elmer'
 "
 call vundle#end()            " required
 " }}}
@@ -49,15 +50,6 @@ nnoremap <leader>g :silent execute ":grep -R " . shellescape(expand("<cWORD>")) 
 " }}}
 
 iabbrev @@ eelis.takala@gmail.com
-
-" Fortran file settings ---------- {{{
-augroup filetype_fortran
-  autocmd!
-	autocmd FileType fortran set foldmethod=syntax
-  autocmd FileType fortran nnoremap <buffer> <localleader>c 0i!<esc>
-	autocmd FileType fortran set tabstop=8 softtabstop=0 expandtab shiftwidth=2 smarttab
-augroup END
-" }}}
 
 " Elmer Sif file settings ---------- {{{
 augroup filetype_sif
