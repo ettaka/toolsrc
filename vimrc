@@ -13,6 +13,8 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'digitaltoad/vim-jade'
 Plugin 'wavded/vim-stylus'
+Plugin 'ettaka/vim-elmer'
+Plugin 'tpope/vim-rails'
 "
 call vundle#end()            " required
 " }}}
