@@ -13,6 +13,7 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'digitaltoad/vim-jade'
 Plugin 'wavded/vim-stylus'
+Plugin 'ettaka/vim-elmer'
 "
 call vundle#end()            " required
 " }}}
@@ -49,14 +50,6 @@ nnoremap <leader>g :silent execute ":grep -R " . shellescape(expand("<cWORD>")) 
 " }}}
 
 iabbrev @@ eelis.takala@gmail.com
-
-" Fortran file settings ---------- {{{
-augroup filetype_fortran
-  autocmd!
-	autocmd FileType fortran set foldmethod=syntax
-  autocmd FileType fortran nnoremap <buffer> <localleader>c 0i!<esc>
-augroup END
-" }}}
 
 " Elmer Sif file settings ---------- {{{
 augroup filetype_sif
