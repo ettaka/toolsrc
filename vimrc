@@ -55,6 +55,7 @@ augroup filetype_fortran
   autocmd!
 	autocmd FileType fortran set foldmethod=syntax
   autocmd FileType fortran nnoremap <buffer> <localleader>c 0i!<esc>
+	autocmd FileType fortran set tabstop=8 softtabstop=0 expandtab shiftwidth=2 smarttab
 augroup END
 " }}}
 
