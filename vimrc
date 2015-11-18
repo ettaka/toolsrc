@@ -51,14 +51,6 @@ nnoremap <leader>g :silent execute ":grep -R " . shellescape(expand("<cWORD>")) 
 
 iabbrev @@ eelis.takala@gmail.com
 
-" Elmer Sif file settings ---------- {{{
-augroup filetype_sif
-  autocmd!
-	autocmd FileType sif set foldmethod=syntax
-  autocmd FileType sif nnoremap <buffer> <localleader>c 0i!<esc>
-augroup END
-" }}}
-
 " Python file settings ---------- {{{
 augroup filetype_python
   autocmd!
