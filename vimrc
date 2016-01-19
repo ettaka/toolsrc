@@ -12,6 +12,7 @@ Plugin 'kchmck/vim-coffee-script'
 Plugin 'digitaltoad/vim-jade'
 Plugin 'wavded/vim-stylus'
 Plugin 'ettaka/vim-elmer'
+Plugin 'ctrlpvim/ctrlp.vim'
 "Plugin 'terryma/vim-multiple-cursors'
 "
 call vundle#end()            " required
@@ -38,7 +39,6 @@ nnoremap <leader>H 0
 nnoremap <leader>L $
 inoremap jj <esc>
 inoremap <esc> <nop>
-nnoremap <leader>e :execute ":g/^$/d"<cr>
 " }}}
 " Test Mappings ---------- {{{
 nnoremap <leader>g :silent execute ":grep -R " . shellescape(expand("<cWORD>")) . " ."<cr>
