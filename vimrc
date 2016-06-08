@@ -1,5 +1,6 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
+set backspace=indent,eol,start
 " Vundle stuff---------- {{{
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -37,8 +38,8 @@ nnoremap <leader>' viw<esc>a'<esc>bi'<esc>
 nnoremap <leader>; `<i'<esc>`>a'<esc>
 nnoremap <leader>H 0
 nnoremap <leader>L $
+nnoremap § :silent !make<cr>:redr!<cr>
 inoremap jj <esc>
-inoremap <esc> <nop>
 " }}}
 " Test Mappings ---------- {{{
 nnoremap <leader>g :silent execute ":grep -R " . shellescape(expand("<cWORD>")) . " ."<cr>
@@ -68,3 +69,10 @@ function! FoldColumnToggle()
 		setlocal foldlevel=1
 	endif
 endfunction
+
+" Latex file settings ---------- {{{
+augroup filetype_tex
+	autocmd!
+	autocmd FileType tex nnoremap <BS> :silent !latex %<cr>:redr!<cr>
+augroup END
+" }}}
