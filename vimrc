@@ -1,6 +1,7 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 set backspace=indent,eol,start
+set updatetime=250
 " Vundle stuff---------- {{{
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -14,6 +15,7 @@ Plugin 'digitaltoad/vim-jade'
 Plugin 'wavded/vim-stylus'
 Plugin 'ettaka/vim-elmer'
 Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'airblade/vim-gitgutter' 
 "Plugin 'terryma/vim-multiple-cursors'
 "
 call vundle#end()            " required
