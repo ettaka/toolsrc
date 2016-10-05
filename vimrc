@@ -44,8 +44,6 @@ nnoremap § :silent !make<cr>:redr!<cr>
 inoremap jj <esc>
 " }}}
 " Test Mappings ---------- {{{
-nnoremap <leader>g :silent execute ":grep -R " . shellescape(expand("<cWORD>")) . " ."<cr>
-     \:execute "copen 5"<cr>
 " }}}
 iabbrev @@ eelis.takala@gmail.com
 " Python file settings ---------- {{{
@@ -61,6 +59,26 @@ augroup filetype_vim
   autocmd FileType vim setlocal tabstop=2
   autocmd FileType vim setlocal shiftwidth=2
   autocmd FileType vim nnoremap <buffer> <localleader>c 0i" <esc>
+augroup END
+" }}}
+" Jade file settings ---------- {{{
+augroup filetype_jade
+  autocmd!
+  autocmd FileType jade setlocal foldmethod=marker
+  autocmd FileType jade setlocal expandtab
+  autocmd FileType jade setlocal tabstop=2
+  autocmd FileType jade setlocal shiftwidth=2
+  autocmd FileType jade nnoremap <buffer> <localleader>c 0i// <esc>
+augroup END
+" }}}
+" Coffee file settings ---------- {{{
+augroup filetype_coffee
+  autocmd!
+  autocmd FileType coffee setlocal foldmethod=marker
+  autocmd FileType coffee setlocal expandtab
+  autocmd FileType coffee setlocal tabstop=2
+  autocmd FileType coffee setlocal shiftwidth=2
+  autocmd FileType coffee nnoremap <buffer> <localleader>c 0i# <esc>
 augroup END
 " }}}
 nnoremap <leader>f :call FoldColumnToggle()<cr>
