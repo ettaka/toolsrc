@@ -44,6 +44,7 @@ nnoremap § :silent !make<cr>:redr!<cr>
 inoremap jj <esc>
 " }}}
 " Test Mappings ---------- {{{
+nnoremap <BS> :w<cr>
 " }}}
 iabbrev @@ eelis.takala@gmail.com
 " Python file settings ---------- {{{
