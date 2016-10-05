@@ -91,8 +91,8 @@ function! FoldColumnToggle()
 endfunction
 
 " Latex file settings ---------- {{{
-augroup filetype_tex
-	autocmd!
-	autocmd FileType tex nnoremap <BS> :silent !latex %<cr>:redr!<cr>
-augroup END
+"augroup filetype_tex
+"	autocmd!
+"	autocmd FileType tex nnoremap <BS> :silent !latex %<cr>:redr!<cr>
+"augroup END
 " }}}
