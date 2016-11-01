@@ -16,6 +16,7 @@ Plugin 'wavded/vim-stylus'
 Plugin 'ettaka/vim-elmer'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'airblade/vim-gitgutter' 
+Plugin 'godlygeek/tabular' 
 "Plugin 'terryma/vim-multiple-cursors'
 "
 call vundle#end()            " required
