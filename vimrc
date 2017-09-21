@@ -2,25 +2,28 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 set backspace=indent,eol,start
 set updatetime=250
-" Vundle stuff---------- {{{
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'tpope/vim-fugitive'
-Plugin 'scrooloose/nerdtree'
-Plugin 'kchmck/vim-coffee-script'
-Plugin 'digitaltoad/vim-jade'
-Plugin 'wavded/vim-stylus'
-Plugin 'ettaka/vim-elmer'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'airblade/vim-gitgutter' 
-Plugin 'godlygeek/tabular' 
-"Plugin 'terryma/vim-multiple-cursors'
-"
-call vundle#end()            " required
-" }}}
+
+" 
+" " Vundle stuff---------- {{{
+" set rtp+=~/.vim/bundle/Vundle.vim
+" call vundle#begin()
+" " let Vundle manage Vundle, required
+" Plugin 'VundleVim/Vundle.vim'
+" Plugin 'Valloric/YouCompleteMe'
+" Plugin 'tpope/vim-fugitive'
+" Plugin 'scrooloose/nerdtree'
+" Plugin 'kchmck/vim-coffee-script'
+" Plugin 'digitaltoad/vim-jade'
+" Plugin 'wavded/vim-stylus'
+" Plugin 'ettaka/vim-elmer'
+" Plugin 'ctrlpvim/ctrlp.vim'
+" Plugin 'airblade/vim-gitgutter' 
+" Plugin 'godlygeek/tabular' 
+" "Plugin 'terryma/vim-multiple-cursors'
+" "
+" call vundle#end()            " required
+" " }}}
+" 
 " Basic settings ---------- {{{
 filetype plugin indent on    " required
 syntax on
