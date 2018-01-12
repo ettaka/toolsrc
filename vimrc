@@ -13,6 +13,7 @@ Plugin 'digitaltoad/vim-jade'
 Plugin 'wavded/vim-stylus'
 Plugin 'ettaka/vim-elmer'
 Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'effi/vim-OpenFoam-syntax.vim'
 "Plugin 'terryma/vim-multiple-cursors'
 "
 call vundle#end()            " required
