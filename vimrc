@@ -1,5 +1,7 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
+set backspace=indent,eol,start
+set updatetime=250
 " Vundle stuff---------- {{{
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -14,6 +16,8 @@ Plugin 'wavded/vim-stylus'
 Plugin 'ettaka/vim-elmer'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'effi/vim-OpenFoam-syntax.vim'
+Plugin 'airblade/vim-gitgutter' 
+Plugin 'godlygeek/tabular' 
 "Plugin 'terryma/vim-multiple-cursors'
 "
 call vundle#end()            " required
@@ -38,12 +42,11 @@ nnoremap <leader>' viw<esc>a'<esc>bi'<esc>
 nnoremap <leader>; `<i'<esc>`>a'<esc>
 nnoremap <leader>H 0
 nnoremap <leader>L $
+nnoremap § :silent !make<cr>:redr!<cr>
 inoremap jj <esc>
-inoremap <esc> <nop>
 " }}}
 " Test Mappings ---------- {{{
-nnoremap <leader>g :silent execute ":grep -R " . shellescape(expand("<cWORD>")) . " ."<cr>
-     \:execute "copen 5"<cr>
+nnoremap <BS> :w<cr>
 " }}}
 iabbrev @@ eelis.takala@gmail.com
 " Python file settings ---------- {{{
@@ -61,6 +64,26 @@ augroup filetype_vim
   autocmd FileType vim nnoremap <buffer> <localleader>c 0i" <esc>
 augroup END
 " }}}
+" Jade file settings ---------- {{{
+augroup filetype_jade
+  autocmd!
+  autocmd FileType jade setlocal foldmethod=marker
+  autocmd FileType jade setlocal expandtab
+  autocmd FileType jade setlocal tabstop=2
+  autocmd FileType jade setlocal shiftwidth=2
+  autocmd FileType jade nnoremap <buffer> <localleader>c 0i// <esc>
+augroup END
+" }}}
+" Coffee file settings ---------- {{{
+augroup filetype_coffee
+  autocmd!
+  autocmd FileType coffee setlocal foldmethod=marker
+  autocmd FileType coffee setlocal expandtab
+  autocmd FileType coffee setlocal tabstop=2
+  autocmd FileType coffee setlocal shiftwidth=2
+  autocmd FileType coffee nnoremap <buffer> <localleader>c 0i# <esc>
+augroup END
+" }}}
 nnoremap <leader>f :call FoldColumnToggle()<cr>
 function! FoldColumnToggle()
 	if &foldlevel
@@ -69,3 +92,10 @@ function! FoldColumnToggle()
 		setlocal foldlevel=1
 	endif
 endfunction
+
+" Latex file settings ---------- {{{
+"augroup filetype_tex
+"	autocmd!
+"	autocmd FileType tex nnoremap <BS> :silent !latex %<cr>:redr!<cr>
+"augroup END
+" }}}
