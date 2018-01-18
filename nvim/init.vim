@@ -10,6 +10,7 @@ Plug 'Neomake/neomake'
 Plug 'rafi/awesome-vim-colorschemes'
 Plug 'vim-scripts/CSApprox'
 Plug 'godlygeek/tabular'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 call plug#end()
 " }}}
 " Basic settings ---------- {{{
@@ -78,3 +79,5 @@ function! FoldColumnToggle()
 endfunction
 " }}}
 let g:python_host_prog="python"
+
+set guicursor= " This is needed for tmux
