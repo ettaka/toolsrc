@@ -9,6 +9,7 @@ Plug 'ettaka/vim-elmer'
 Plug 'Neomake/neomake'
 Plug 'rafi/awesome-vim-colorschemes'
 Plug 'vim-scripts/CSApprox'
+Plug 'godlygeek/tabular'
 call plug#end()
 " }}}
 " Basic settings ---------- {{{
@@ -20,9 +21,10 @@ set ruler
 colorscheme carbonized-dark
 " }}}
 " Neomake stuff -------------------{{{
-autocmd User NeomakeFinished copen
+" autocmd User NeomakeFinished copen
 nnoremap <leader>my :NeomakeSh printf "y" \| compile\_elmer\_branch.sh<cr>
 nnoremap <leader>mn :NeomakeSh printf "N\ny" \| compile\_elmer\_branch.sh<cr>
+nnoremap <leader>l :NeomakeSh ./run_latex.sh<cr>
 " }}}
 " Basic mappings ---------- {{{
 let mapleader = "\\"
