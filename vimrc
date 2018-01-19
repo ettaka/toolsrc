@@ -18,6 +18,7 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'effi/vim-OpenFoam-syntax.vim'
 Plugin 'airblade/vim-gitgutter' 
 Plugin 'godlygeek/tabular' 
+Plugin 'flazz/vim-colorschemes'
 "Plugin 'terryma/vim-multiple-cursors'
 "
 call vundle#end()            " required
@@ -28,6 +29,7 @@ syntax on
 set number
 set foldlevelstart=0
 set ruler
+colorscheme ChocolateLiquor
 " }}}
 " Mappings ---------- {{{
 let mapleader = "\\"
