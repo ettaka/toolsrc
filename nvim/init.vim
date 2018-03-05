@@ -78,6 +78,7 @@ function! FoldColumnToggle()
 		setlocal foldlevel=1
 	endif
 endfunction
+let fortran_fold=1
 " }}}
 let g:python_host_prog="python"
 

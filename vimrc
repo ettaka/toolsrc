@@ -94,6 +94,7 @@ function! FoldColumnToggle()
 		setlocal foldlevel=1
 	endif
 endfunction
+let fortran_fold=1
 
 " Latex file settings ---------- {{{
 "augroup filetype_tex
