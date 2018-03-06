@@ -17,21 +17,34 @@ bashrc_path = home_dir + "/.bashrc"
 zshrc_path = home_dir + "/.zshrc"
 
 def e(cmd):
-	proc = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
-	return proc.stdout.read()
+    proc = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
+    return proc.stdout.read()
 
-def git_version():
-	try:
-		return e('git --version')
-	except:
-		return None
+def version(program='git'):
+    try:
+        if program == 'git':
+            return e('git --version')
+        elif program == 'zsh':
+            return e('zsh --version')
+        elif program == 'curl':
+            return e('curl --version')
+    except:
+            return None
 
-def zsh_version():
-	try:
-		return e('zsh --version')
-	except:
-		return None
-
+def require(program='git'):
+    if program == 'git':
+        if version('git') == None:
+            print "Git not found! Install it and try again."
+            exit()
+    elif program == 'zsh':
+        if version('zsh') == None:
+            print "Zsh not found! Install it and try again."
+            exit()
+    elif program == 'curl':
+        if version('curl') == None:
+            print "Curl not found! Install it and try again."
+            exit()
+        
 def makedir(dir): 
     if not os.path.exists(dir): 
             os.makedirs(dir)
@@ -39,38 +52,40 @@ def makedir(dir):
     return False
 
 def create_nvim_conf_path():
-	print "Creating Nvim configuration path", nvim_conf_path, "...",
-	if not makedir(nvim_conf_path): print "already exists"
-	else: print
+    print "Creating Nvim configuration path", nvim_conf_path, "...",
+    if not makedir(nvim_conf_path): print "already exists"
+    else: print
 
 def create_nvim_init_symlink():
-	print "Creating a symbolic link", nvim_init_path, "to target", nvim_init_target, "...", 
-	if not os.path.isfile(nvim_init_path):
-		e('ln -s ' + nvim_init_target + ' ' + nvim_init_path)
-		print
-	else:
-		print "already exists"
+    print "Creating a symbolic link", nvim_init_path, "to target", nvim_init_target, "...", 
+    if not os.path.isfile(nvim_init_path):
+            e('ln -s ' + nvim_init_target + ' ' + nvim_init_path)
+            print
+    else:
+            print "already exists"
 
 def install_nvim_appimage(install_path):
-	print "Creating nvim install path", install_path, "...",
-	if not makedir(install_path): print "already exists"
-	print "Installing Nvim Appimage...", 
-	if not os.path.isfile(install_path + '/nvim.appimage'):
-                print
-		try:
-			e('curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage')
-		except:
-			print "Problem with fetching, check if curl works accordingly."
-			exit()
-		e('mv nvim.appimage ' + install_path) 
-		e('chmod u+x ' + install_path + '/nvim.appimage')
-		e('ln -s ' + install_path + '/nvim.appimage ' + install_path + '/nvim')
-	
-	else:
-		print "already exists"
+    require('curl') 
+    print "Creating nvim install path", install_path, "...",
+    if not makedir(install_path): print "already exists"
+    print "Installing Nvim Appimage...", 
+    if not os.path.isfile(install_path + '/nvim.appimage'):
+        print
+        try:
+            e('curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage')
+        except:
+            print "Problem with fetching, check if curl works accordingly."
+            exit()
+        e('mv nvim.appimage ' + install_path) 
+        e('chmod u+x ' + install_path + '/nvim.appimage')
+        e('ln -s ' + install_path + '/nvim.appimage ' + install_path + '/nvim')
+
+    else:
+        print "already exists"
 
 
 def install_vim_plug():
+    require('curl') 
     autoload_dir = nvim_conf_path + '/autoload'
     vimplug_file_path = autoload_dir + '/plug.vim'
     print "Fetching plug.vim at", vimplug_url, "...",
@@ -124,11 +139,11 @@ def set_shellrc(shell='bash'):
         else:
             print "already set"
     if shell == 'zsh':
-        if zsh_version() == None: 
-            print "Zsh not found, please install it first!"
-            return
+        require('zsh')
         print "Setting up zsh"
         if not os.path.exists(home_dir + "/.oh-my-zsh"):
+            require('curl') 
+            require('git') 
             print "Installing oh-my-zsh..."
             try:
                 e('curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -o install-oh-my-zsh.sh')
