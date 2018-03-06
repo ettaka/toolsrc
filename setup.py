@@ -2,6 +2,7 @@
 
 import subprocess
 import os
+import fileinput
 
 home_dir = os.path.expanduser("~")  
 working_dir = os.getcwd()
@@ -13,6 +14,7 @@ vimplug_url = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.v
 tmux_conf_target = working_dir + "/tmux/tmux.conf"
 tmux_conf_path = home_dir + "/.tmux.conf"
 bashrc_path = home_dir + "/.bashrc"
+zshrc_path = home_dir + "/.zshrc"
 
 def e(cmd):
 	proc = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
@@ -95,6 +97,10 @@ def shellrc_not_set(shell='bash'):
         with open(bashrc_path, 'r') as bashrc:
             content = bashrc.readlines()
         if len([line for line in content if "# toolsrc set" in line])==0: return True
+    elif shell == 'zsh':
+        with open(zshrc_path, 'r') as bashrc:
+            content = bashrc.readlines()
+        if len([line for line in content if "# toolsrc set" in line])==0: return True
     return False
     
 def set_shellrc(shell='bash'):
@@ -111,10 +117,34 @@ def set_shellrc(shell='bash'):
             bashrc.write("# end of toolsrc settings\n")
         else:
             print "already set"
+    if shell == 'zsh':
+        print "Setting up zsh"
+        if not os.path.exists(home_dir + "/.oh-my-zsh"):
+            print "Installing oh-my-zsh..."
+            try:
+                e('curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -o install-oh-my-zsh.sh')
+                for line in fileinput.input("install-oh-my-zsh.sh", inplace=True):
+                    print line.replace("env zsh\n", ""),
+                e('chmod u+x ./install-oh-my-zsh.sh')
+                e('sh -c ./install-oh-my-zsh.sh')
+                print "oh-my-zsh installed, zsh is set as default and will be actived next time you login"
+            except:
+                print "oh-my-zsh install failed"
+        else:
+            print "oh-my-zsh already installed, remove ~/.oh-my-zsh in order to reinstall."
 
-#if git_version() == None:
-	#print "Git is not found! Exiting..."
-	#exit()
+        if shellrc_not_set('zsh'):
+            rc = open(zshrc_path, "a")
+            rc.write("# toolsrc set (don't remove this comment line unless you remove all that is set by toolsrc setup script)\n")
+            #rc.write("TOOLSRC_DIR=/home/eelis/git/toolsrc\n")
+            #rc.write("for BASHFILE in $(ls $TOOLSRC_DIR/bash)\n")
+            #rc.write("do\n")
+            #rc.write("    source $TOOLSRC_DIR/bash/$BASHFILE\n")
+            #rc.write("done\n")
+            rc.write("# end of toolsrc settings\n")
+        else:
+            print "already set"
+
 
 create_nvim_conf_path()
 create_nvim_init_symlink()
@@ -122,3 +152,4 @@ install_nvim_appimage(nvim_install_dir)
 install_vim_plug()
 set_tmux_conf_symlink()
 set_shellrc('bash')
+set_shellrc('zsh')
