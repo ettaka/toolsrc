@@ -130,7 +130,7 @@ def set_shellrc(shell='bash'):
         if shellrc_not_set('bash'):
             bashrc = open(bashrc_path, "a")
             bashrc.write("# toolsrc set (don't remove this comment line unless you remove all that is set by toolsrc setup script)\n")
-            bashrc.write("TOOLSRC_DIR=/home/eelis/git/toolsrc\n")
+            bashrc.write("TOOLSRC_DIR=" + working_dir + "\n")
             bashrc.write("for BASHFILE in $(ls $TOOLSRC_DIR/bash)\n")
             bashrc.write("do\n")
             bashrc.write("    source $TOOLSRC_DIR/bash/$BASHFILE\n")
