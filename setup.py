@@ -26,6 +26,12 @@ def git_version():
 	except:
 		return None
 
+def zsh_version():
+	try:
+		return e('zsh --version')
+	except:
+		return None
+
 def makedir(dir): 
     if not os.path.exists(dir): 
             os.makedirs(dir)
@@ -118,6 +124,9 @@ def set_shellrc(shell='bash'):
         else:
             print "already set"
     if shell == 'zsh':
+        if zsh_version() == None: 
+            print "Zsh not found, please install it first!"
+            return
         print "Setting up zsh"
         if not os.path.exists(home_dir + "/.oh-my-zsh"):
             print "Installing oh-my-zsh..."
