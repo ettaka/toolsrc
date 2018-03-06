@@ -10,6 +10,8 @@ nvim_conf_path = home_dir + "/.config/nvim"
 nvim_init_path = nvim_conf_path + "/init.vim"
 nvim_init_target = working_dir + "/nvim/init.vim"
 vimplug_url = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+tmux_conf_target = working_dir + "/tmux/tmux.conf"
+tmux_conf_path = home_dir + "/.tmux.conf"
 
 def e(cmd):
 	proc = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
@@ -22,10 +24,10 @@ def git_version():
 		return None
 
 def makedir(dir): 
-	if not os.path.exists(dir): 
-		os.makedirs(dir)
-		return True
-	return False
+    if not os.path.exists(dir): 
+            os.makedirs(dir)
+            return True
+    return False
 
 def create_nvim_conf_path():
 	print "Creating Nvim configuration path", nvim_conf_path, "...",
@@ -61,7 +63,7 @@ def install_nvim_appimage(install_path):
 def install_vim_plug():
     autoload_dir = nvim_conf_path + '/autoload'
     vimplug_file_path = autoload_dir + '/plug.vim'
-    print "Fetcing plug.vim at", vimplug_url, "..."
+    print "Fetching plug.vim at", vimplug_url, "...",
     if not os.path.isfile(vimplug_file_path):
         try:
             e('curl -LO ' + vimplug_url)
@@ -71,11 +73,19 @@ def install_vim_plug():
         makedir(autoload_dir)
         e('mv plug.vim ' + autoload_dir)
     else:
-        print "exists already"
+        print "already exists"
                 
     if not os.path.isfile(vimplug_file_path):
         print "A problem with fetching the vim.plug file"
         exit()
+
+def set_tmux_conf_symlink():
+    print "Setting tmux config file symlink", tmux_conf_path, "target to", tmux_conf_target, "...",
+    if os.path.isfile(tmux_conf_path):
+        print "already set"
+    else:
+        e('ln -s ' + tmux_conf_target + ' ' + tmux_conf_path)
+
 
 if git_version() == None:
 	print "Git is not found! Exiting..."
@@ -85,4 +95,5 @@ create_nvim_conf_path()
 create_nvim_init_symlink()
 install_nvim_appimage(nvim_install_dir)
 install_vim_plug()
+set_tmux_conf_symlink()
 
