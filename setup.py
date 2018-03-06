@@ -12,6 +12,7 @@ nvim_init_target = working_dir + "/nvim/init.vim"
 vimplug_url = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 tmux_conf_target = working_dir + "/tmux/tmux.conf"
 tmux_conf_path = home_dir + "/.tmux.conf"
+bashrc_path = home_dir + "/.bashrc"
 
 def e(cmd):
 	proc = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
@@ -47,6 +48,7 @@ def install_nvim_appimage(install_path):
 	if not makedir(install_path): print "already exists"
 	print "Installing Nvim Appimage...", 
 	if not os.path.isfile(install_path + '/nvim.appimage'):
+                print
 		try:
 			e('curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage')
 		except:
@@ -65,6 +67,7 @@ def install_vim_plug():
     vimplug_file_path = autoload_dir + '/plug.vim'
     print "Fetching plug.vim at", vimplug_url, "...",
     if not os.path.isfile(vimplug_file_path):
+        print
         try:
             e('curl -LO ' + vimplug_url)
         except:
@@ -85,15 +88,35 @@ def set_tmux_conf_symlink():
         print "already set"
     else:
         e('ln -s ' + tmux_conf_target + ' ' + tmux_conf_path)
+        print
 
+def bashrc_not_set():
+    with open(bashrc_path, 'r') as bashrc:
+        content = bashrc.readlines()
+    if len([line for line in content if "# toolsrc set" in line])==0: return True
+    return False
+    
+def set_bashrc():
+    print "Setting bashrc ...", 
+    if bashrc_not_set():
+        bashrc = open(bashrc_path, "a")
+        bashrc.write("# toolsrc set (don't remove this comment line unless you remove all that is set by toolsrc setup script)\n")
+        bashrc.write("TOOLSRC_DIR=/home/eelis/git/toolsrc\n")
+        bashrc.write("for BASHFILE in $(ls $TOOLSRC_DIR/bash)\n")
+        bashrc.write("do\n")
+        bashrc.write("    source $TOOLSRC_DIR/bash/$BASHFILE\n")
+        bashrc.write("done\n")
+        bashrc.write("# end of toolsrc settings\n")
+    else:
+        print "already set"
 
-if git_version() == None:
-	print "Git is not found! Exiting..."
-	exit()
+#if git_version() == None:
+	#print "Git is not found! Exiting..."
+	#exit()
 
 create_nvim_conf_path()
 create_nvim_init_symlink()
 install_nvim_appimage(nvim_install_dir)
 install_vim_plug()
 set_tmux_conf_symlink()
-
+set_bashrc()
