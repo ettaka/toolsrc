@@ -160,7 +160,7 @@ def set_shellrc(shell='bash'):
         if shellrc_not_set('zsh'):
             rc = open(zshrc_path, "a")
             rc.write("# toolsrc set (don't remove this comment line unless you remove all that is set by toolsrc setup script)\n")
-            rc.write("TOOLSRC_DIR=/home/eelis/git/toolsrc\n")
+            rc.write("TOOLSRC_DIR=" + working_dir + "\n")
             rc.write("for SHFILE in $(ls $TOOLSRC_DIR/zsh)\n")
             rc.write("do\n")
             rc.write("    source $TOOLSRC_DIR/zsh/$SHFILE\n")
