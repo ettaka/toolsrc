@@ -90,25 +90,27 @@ def set_tmux_conf_symlink():
         e('ln -s ' + tmux_conf_target + ' ' + tmux_conf_path)
         print
 
-def bashrc_not_set():
-    with open(bashrc_path, 'r') as bashrc:
-        content = bashrc.readlines()
-    if len([line for line in content if "# toolsrc set" in line])==0: return True
+def shellrc_not_set(shell='bash'):
+    if shell == 'bash':
+        with open(bashrc_path, 'r') as bashrc:
+            content = bashrc.readlines()
+        if len([line for line in content if "# toolsrc set" in line])==0: return True
     return False
     
-def set_bashrc():
-    print "Setting bashrc ...", 
-    if bashrc_not_set():
-        bashrc = open(bashrc_path, "a")
-        bashrc.write("# toolsrc set (don't remove this comment line unless you remove all that is set by toolsrc setup script)\n")
-        bashrc.write("TOOLSRC_DIR=/home/eelis/git/toolsrc\n")
-        bashrc.write("for BASHFILE in $(ls $TOOLSRC_DIR/bash)\n")
-        bashrc.write("do\n")
-        bashrc.write("    source $TOOLSRC_DIR/bash/$BASHFILE\n")
-        bashrc.write("done\n")
-        bashrc.write("# end of toolsrc settings\n")
-    else:
-        print "already set"
+def set_shellrc(shell='bash'):
+    if shell == 'bash':
+        print "Setting bashrc ...", 
+        if shellrc_not_set('bash'):
+            bashrc = open(bashrc_path, "a")
+            bashrc.write("# toolsrc set (don't remove this comment line unless you remove all that is set by toolsrc setup script)\n")
+            bashrc.write("TOOLSRC_DIR=/home/eelis/git/toolsrc\n")
+            bashrc.write("for BASHFILE in $(ls $TOOLSRC_DIR/bash)\n")
+            bashrc.write("do\n")
+            bashrc.write("    source $TOOLSRC_DIR/bash/$BASHFILE\n")
+            bashrc.write("done\n")
+            bashrc.write("# end of toolsrc settings\n")
+        else:
+            print "already set"
 
 #if git_version() == None:
 	#print "Git is not found! Exiting..."
@@ -119,4 +121,4 @@ create_nvim_init_symlink()
 install_nvim_appimage(nvim_install_dir)
 install_vim_plug()
 set_tmux_conf_symlink()
-set_bashrc()
+set_shellrc('bash')
