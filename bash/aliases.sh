@@ -5,5 +5,6 @@ alias l='ls -CF'
 
 # other aliases
 alias h='history'
+alias hg='history | grep '
 
 
