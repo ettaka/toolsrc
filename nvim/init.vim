@@ -12,6 +12,7 @@ Plug 'vim-scripts/CSApprox'
 Plug 'godlygeek/tabular'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'scrooloose/nerdtree'
+Plug 'gcmt/taboo.vim'
 call plug#end()
 " }}}
 " Basic settings ---------- {{{
