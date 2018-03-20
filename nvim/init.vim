@@ -10,7 +10,8 @@ Plug 'Neomake/neomake'
 Plug 'rafi/awesome-vim-colorschemes'
 Plug 'vim-scripts/CSApprox'
 Plug 'godlygeek/tabular'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'gcmt/taboo.vim'
 call plug#end()
