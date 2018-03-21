@@ -53,9 +53,9 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 " }}}
 " Test Mappings ---------- {{{
-nnoremap <leader>g :silent execute ":grep -R " . shellescape(expand("<cWORD>")) . " ."<cr>
-     \:execute "copen 5"<cr>
+tnoremap <leader>cd <C-\><C-n>kyy:cd <C-R>" <CR>
 " }}}
+"
 " Python file settings ---------- {{{
 augroup filetype_python
   autocmd!
