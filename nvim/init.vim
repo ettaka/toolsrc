@@ -14,6 +14,8 @@ Plug 'godlygeek/tabular'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'gcmt/taboo.vim'
+Plug 'vim-scripts/vim-coffee-script'
+Plug 'vim-scripts/jade.vim'
 call plug#end()
 " }}}
 " Basic settings ---------- {{{
