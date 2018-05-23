@@ -10,8 +10,11 @@ Plug 'Neomake/neomake'
 Plug 'rafi/awesome-vim-colorschemes'
 Plug 'vim-scripts/CSApprox'
 Plug 'godlygeek/tabular'
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'prabirshrestha/asyncomplete.vim'
+
+" autocompletion
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'zchee/deoplete-jedi'
+
 Plug 'scrooloose/nerdtree'
 Plug 'gcmt/taboo.vim'
 Plug 'vim-scripts/vim-coffee-script'
@@ -95,6 +98,10 @@ function! FoldColumnToggle()
 endfunction
 let fortran_fold=1
 " }}}
-let g:python_host_prog="python"
+
+let g:python_host_prog="/home/eelis/miniconda2/envs/neovim2/bin/python"
+let g:python3_host_prog="/home/eelis/miniconda2/envs/neovim3/bin/python3"
 
 set guicursor= " This is needed for tmux
+let g:deoplete#enable_at_startup = 1
+
