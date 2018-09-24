@@ -2,26 +2,25 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 set backspace=indent,eol,start
 set updatetime=250
-" Vundle stuff---------- {{{
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'tpope/vim-fugitive'
-Plugin 'scrooloose/nerdtree'
-Plugin 'kchmck/vim-coffee-script'
-Plugin 'digitaltoad/vim-jade'
-Plugin 'wavded/vim-stylus'
-Plugin 'ettaka/vim-elmer'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'effi/vim-OpenFoam-syntax.vim'
-Plugin 'airblade/vim-gitgutter' 
-Plugin 'godlygeek/tabular' 
-Plugin 'flazz/vim-colorschemes'
-"Plugin 'terryma/vim-multiple-cursors'
-"
-call vundle#end()            " required
+set t_Co=256
+
+" vim-plug settings ---------- {{{
+call plug#begin()
+Plug 'ettaka/vim-elmer'
+" Plug 'Neomake/neomake'
+Plug 'rafi/awesome-vim-colorschemes'
+Plug 'vim-scripts/CSApprox'
+Plug 'godlygeek/tabular'
+
+" autocompletion
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'zchee/deoplete-jedi'
+
+Plug 'scrooloose/nerdtree'
+Plug 'gcmt/taboo.vim'
+Plug 'vim-scripts/vim-coffee-script'
+Plug 'vim-scripts/jade.vim'
+call plug#end()
 " }}}
 " Basic settings ---------- {{{
 filetype plugin indent on    " required
@@ -29,7 +28,7 @@ syntax on
 set number
 set foldlevelstart=0
 set ruler
-colorscheme ChocolateLiquor
+colorscheme carbonized-dark
 " }}}
 " Mappings ---------- {{{
 let mapleader = "\\"
@@ -46,6 +45,11 @@ nnoremap <leader>H 0
 nnoremap <leader>L $
 nnoremap § :silent !make<cr>:redr!<cr>
 inoremap jj <esc>
+
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
 " }}}
 " Test Mappings ---------- {{{
 nnoremap <BS> :w<cr>
