@@ -1,25 +1,27 @@
-set nocompatible              " be iMproved, required
-filetype off                  " required
-set backspace=indent,eol,start
-set updatetime=250
-set t_Co=256
+	set nocompatible              " be iMproved, required
+	filetype off                  " required
+	set backspace=indent,eol,start
+	set updatetime=250
+	set t_Co=256
 
-" vim-plug settings ---------- {{{
-call plug#begin()
-Plug 'ettaka/vim-elmer'
-" Plug 'Neomake/neomake'
-Plug 'rafi/awesome-vim-colorschemes'
-Plug 'vim-scripts/CSApprox'
-Plug 'godlygeek/tabular'
+	" vim-plug settings ---------- {{{
+	call plug#begin()
+	Plug 'ettaka/vim-elmer'
+	" Plug 'Neomake/neomake'
+	Plug 'rafi/awesome-vim-colorschemes'
+	Plug 'vim-scripts/CSApprox'
+	Plug 'godlygeek/tabular'
 
-" autocompletion
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" Plug 'zchee/deoplete-jedi'
+	" autocompletion
+	" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+	" Plug 'zchee/deoplete-jedi'
 
-Plug 'scrooloose/nerdtree'
-Plug 'gcmt/taboo.vim'
-Plug 'vim-scripts/vim-coffee-script'
-Plug 'vim-scripts/jade.vim'
+	Plug 'scrooloose/nerdtree'
+	Plug 'gcmt/taboo.vim'
+	Plug 'vim-scripts/vim-coffee-script'
+	Plug 'vim-scripts/jade.vim'
+	Plug 'andymass/vim-matlab'
+	Plug 'https://github.com/ettaka/vim-apdl.git'
 call plug#end()
 " }}}
 " Basic settings ---------- {{{
