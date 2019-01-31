@@ -1,6 +1,11 @@
+let $CHERE_INVOKING=1
+let shell='powershell'
 set nocompatible              " be iMproved, required
 filetype off                  " required
 iabbrev @@ eelis.takala@gmail.com
+
+set mouse=a
+source $VIMRUNTIME/mswin.vim
 
 " vim-plug settings ---------- {{{
 call plug#begin()
@@ -19,6 +24,10 @@ Plug 'scrooloose/nerdtree'
 Plug 'gcmt/taboo.vim'
 Plug 'vim-scripts/vim-coffee-script'
 Plug 'vim-scripts/jade.vim'
+Plug 'https://github.com/ettaka/vim-apdl.git'
+Plug 'https://github.com/tpope/vim-fugitive'
+Plug 'https://github.com/sk1418/HowMuch'
+Plug 'https://github.com/wesQ3/vim-windowswap'
 call plug#end()
 " }}}
 " Basic settings ---------- {{{
@@ -41,8 +50,8 @@ noremap <leader>- ddp
 noremap <leader>_ dd2kp
 inoremap <leader><c-u> <esc>viwUi
 nnoremap <leader><c-u> viwU
-nnoremap <leader>ev :vsplit ~/.config/nvim/init.vim<cr>
-nnoremap <leader>sv :source ~/.config/nvim/init.vim<cr>
+nnoremap <leader>ev :vsplit C:\Users\eetakala\AppData\Local\nvim\init.vim<cr>
+nnoremap <leader>sv :source C:\Users\eetakala\AppData\Local\nvim\init.vim<cr>
 nnoremap <leader>" viw<esc>a"<esc>bi"<esc>
 nnoremap <leader>' viw<esc>a'<esc>bi'<esc>
 nnoremap <leader>; `<i'<esc>`>a'<esc>
@@ -71,6 +80,8 @@ vnoremap <silent> # :<C-U>
   \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
   \gV:call setreg('"', old_reg, old_regtype)<CR>
 " }}}
+" windows cern cd mappings
+nnoremap <leader>cdmod :cd ~\cernbox\Models\MPack\ <CR>
 "
 " Python file settings ---------- {{{
 augroup filetype_python
@@ -97,7 +108,6 @@ function! FoldColumnToggle()
 	endif
 endfunction
 let fortran_fold=1
-" }}}
 
 let g:python_host_prog="/home/eelis/miniconda2/envs/neovim2/bin/python"
 let g:python3_host_prog="/home/eelis/miniconda2/envs/neovim3/bin/python3"
@@ -105,3 +115,4 @@ let g:python3_host_prog="/home/eelis/miniconda2/envs/neovim3/bin/python3"
 set guicursor= " This is needed for tmux
 let g:deoplete#enable_at_startup = 1
 
+cd ~
