@@ -12,13 +12,14 @@ Plug 'vim-scripts/CSApprox'
 Plug 'godlygeek/tabular'
 
 " autocompletion
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'zchee/deoplete-jedi'
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'zchee/deoplete-jedi'
 
 Plug 'scrooloose/nerdtree'
 Plug 'gcmt/taboo.vim'
 Plug 'vim-scripts/vim-coffee-script'
 Plug 'vim-scripts/jade.vim'
+Plug 'ettaka/vim-apdl'
 call plug#end()
 " }}}
 " Basic settings ---------- {{{
