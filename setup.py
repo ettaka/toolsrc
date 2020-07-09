@@ -17,7 +17,10 @@ bashrc_path = home_dir + "/.bashrc"
 zshrc_path = home_dir + "/.zshrc"
 
 def e(cmd):
-    proc = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
+    if type(cmd) == type([]):
+        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    else:
+        proc = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
     return proc.stdout.read()
 
 def version(program='git'):
@@ -146,11 +149,9 @@ def set_shellrc(shell='bash'):
             require('git') 
             print("Installing oh-my-zsh...")
             try:
-                e('curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -o install-oh-my-zsh.sh')
-                for line in fileinput.input("install-oh-my-zsh.sh", inplace=True):
-                    print(line.replace("env zsh\n", ""), end=' ')
-                e('chmod u+x ./install-oh-my-zsh.sh')
-                e('sh -c ./install-oh-my-zsh.sh')
+                e('wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh')
+                e('sh install.sh')
+                #e(['sh','-c','"$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'])
                 print("oh-my-zsh installed, zsh is set as default and will be actived next time you login")
             except:
                 print("oh-my-zsh install failed")
