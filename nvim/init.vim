@@ -20,6 +20,7 @@ Plug 'gcmt/taboo.vim'
 Plug 'vim-scripts/vim-coffee-script'
 Plug 'vim-scripts/jade.vim'
 Plug 'ettaka/vim-apdl'
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 call plug#end()
 " }}}
 " Basic settings ---------- {{{
@@ -106,3 +107,4 @@ let g:python3_host_prog="/home/eelis/miniconda2/envs/neovim3/bin/python3"
 set guicursor= " This is needed for tmux
 let g:deoplete#enable_at_startup = 1
 
+set g:vmleader="\\c"
