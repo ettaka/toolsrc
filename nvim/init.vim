@@ -107,4 +107,4 @@ let g:python3_host_prog="/home/eelis/miniconda2/envs/neovim3/bin/python3"
 set guicursor= " This is needed for tmux
 let g:deoplete#enable_at_startup = 1
 
-set g:vmleader="\\c"
+let g:vmleader="\\c"
