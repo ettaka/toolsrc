@@ -10,12 +10,16 @@ Plug 'Neomake/neomake'
 Plug 'rafi/awesome-vim-colorschemes'
 Plug 'vim-scripts/CSApprox'
 Plug 'godlygeek/tabular'
+
+" autocompletion
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'prabirshrestha/asyncomplete.vim'
+" Plug 'zchee/deoplete-jedi'
+
 Plug 'scrooloose/nerdtree'
 Plug 'gcmt/taboo.vim'
 Plug 'vim-scripts/vim-coffee-script'
 Plug 'vim-scripts/jade.vim'
+Plug 'ettaka/vim-apdl'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 call plug#end()
 " }}}
@@ -57,6 +61,17 @@ nnoremap <C-H> <C-W><C-H>
 " }}}
 " Test Mappings ---------- {{{
 tnoremap <leader>cd <C-\><C-n>kyy:cd <C-R>" <CR>
+" Search for selected text, forwards or backwards.
+vnoremap <silent> * :<C-U>
+  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+  \gvy/<C-R><C-R>=substitute(
+  \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+  \gV:call setreg('"', old_reg, old_regtype)<CR>
+vnoremap <silent> # :<C-U>
+  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+  \gvy?<C-R><C-R>=substitute(
+  \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+  \gV:call setreg('"', old_reg, old_regtype)<CR>
 " }}}
 "
 " Python file settings ---------- {{{
@@ -87,10 +102,13 @@ function! FoldColumnToggle()
 endfunction
 let fortran_fold=1
 " }}}
-let g:python_host_prog="python"
+
+let g:python_host_prog="/home/eelis/miniconda2/envs/neovim2/bin/python"
+let g:python3_host_prog="/home/eelis/miniconda2/envs/neovim3/bin/python3"
 
 set guicursor= " This is needed for tmux
 
 " vim visual multi -------------------------{{{
 let g:VM_leader='\\'
 " }}}
+
