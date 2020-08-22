@@ -16,6 +16,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'gcmt/taboo.vim'
 Plug 'vim-scripts/vim-coffee-script'
 Plug 'vim-scripts/jade.vim'
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 call plug#end()
 " }}}
 " Basic settings ---------- {{{
@@ -62,6 +63,8 @@ tnoremap <leader>cd <C-\><C-n>kyy:cd <C-R>" <CR>
 augroup filetype_python
   autocmd!
   autocmd FileType python nnoremap <buffer> <localleader>c I#<esc>
+	autocmd FileType python map <buffer> <F9> :w<CR>:exec '!python3' shellescape(@%, 1)<CR>
+  autocmd FileType python imap <buffer> <F9> <esc>:w<CR>:exec '!python3' shellescape(@%, 1)<CR>
 augroup END
 " }}}
 " Vimscript file settings ---------- {{{
@@ -87,3 +90,7 @@ let fortran_fold=1
 let g:python_host_prog="python"
 
 set guicursor= " This is needed for tmux
+
+" vim visual multi -------------------------{{{
+let g:VM_leader='\\'
+" }}}
