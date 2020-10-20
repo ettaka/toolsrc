@@ -12,9 +12,6 @@ Plug 'vim-scripts/CSApprox'
 Plug 'godlygeek/tabular'
 
 " autocompletion
-"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-"Plug 'zchee/deoplete-jedi'
-
 Plug 'scrooloose/nerdtree'
 Plug 'gcmt/taboo.vim'
 Plug 'vim-scripts/vim-coffee-script'
@@ -22,6 +19,7 @@ Plug 'vim-scripts/jade.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'https://github.com/ettaka/vim-apdl.git'
 Plug 'mg979/vim-visual-multi', {'branch':'master'}
+Plug 'ettaka/vim-apdl'
 call plug#end()
 " }}}
 " Basic settings ---------- {{{
@@ -81,6 +79,8 @@ vnoremap <silent> # :<C-U>
 augroup filetype_python
   autocmd!
   autocmd FileType python nnoremap <buffer> <localleader>c I#<esc>j
+	autocmd FileType python map <buffer> <F9> :w<CR>:exec '!python3' shellescape(@%, 1)<CR>
+  autocmd FileType python imap <buffer> <F9> <esc>:w<CR>:exec '!python3' shellescape(@%, 1)<CR>
 augroup END
 " }}}
 " Vimscript file settings ---------- {{{
@@ -108,7 +108,10 @@ let g:python_host_prog="/home/eelis/miniconda2/envs/neovim2/bin/python"
 "let g:python3_host_prog="/home/eelis/miniconda2/envs/neovim3/bin/python3"
 
 set guicursor= " This is needed for tmux
-let g:deoplete#enable_at_startup = 1
+
+" vim visual multi -------------------------{{{
+let g:VM_leader='\\'
+" }}}
 
 " vim-visual-multi -------------------------{{{
 let g:VM_leader = '\\'

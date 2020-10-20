@@ -17,7 +17,10 @@ bashrc_path = home_dir + "/.bashrc"
 zshrc_path = home_dir + "/.zshrc"
 
 def e(cmd):
-    proc = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
+    if type(cmd) == type([]):
+        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    else:
+        proc = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
     return proc.stdout.read()
 
 def version(program='git'):
@@ -34,15 +37,15 @@ def version(program='git'):
 def require(program='git'):
     if program == 'git':
         if version('git') == None:
-            print "Git not found! Install it and try again."
+            print("Git not found! Install it and try again.")
             exit()
     elif program == 'zsh':
         if version('zsh') == None:
-            print "Zsh not found! Install it and try again."
+            print("Zsh not found! Install it and try again.")
             exit()
     elif program == 'curl':
         if version('curl') == None:
-            print "Curl not found! Install it and try again."
+            print("Curl not found! Install it and try again.")
             exit()
         
 def makedir(dir): 
@@ -52,66 +55,66 @@ def makedir(dir):
     return False
 
 def create_nvim_conf_path():
-    print "Creating Nvim configuration path", nvim_conf_path, "...",
-    if not makedir(nvim_conf_path): print "already exists"
-    else: print
+    print("Creating Nvim configuration path", nvim_conf_path, "...", end=' ')
+    if not makedir(nvim_conf_path): print("already exists")
+    else: print()
 
 def create_nvim_init_symlink():
-    print "Creating a symbolic link", nvim_init_path, "to target", nvim_init_target, "...", 
+    print("Creating a symbolic link", nvim_init_path, "to target", nvim_init_target, "...", end=' ') 
     if not os.path.isfile(nvim_init_path):
             e('ln -s ' + nvim_init_target + ' ' + nvim_init_path)
-            print
+            print()
     else:
-            print "already exists"
+            print("already exists")
 
 def install_nvim_appimage(install_path):
     require('curl') 
-    print "Creating nvim install path", install_path, "...",
-    if not makedir(install_path): print "already exists"
-    print "Installing Nvim Appimage...", 
+    print("Creating nvim install path", install_path, "...", end=' ')
+    if not makedir(install_path): print("already exists")
+    print("Installing Nvim Appimage...", end=' ') 
     if not os.path.isfile(install_path + '/nvim.appimage'):
-        print
+        print()
         try:
             e('curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage')
         except:
-            print "Problem with fetching, check if curl works accordingly."
+            print("Problem with fetching, check if curl works accordingly.")
             exit()
         e('mv nvim.appimage ' + install_path) 
         e('chmod u+x ' + install_path + '/nvim.appimage')
         e('ln -s ' + install_path + '/nvim.appimage ' + install_path + '/nvim')
 
     else:
-        print "already exists"
+        print("already exists")
 
 
 def install_vim_plug():
     require('curl') 
     autoload_dir = nvim_conf_path + '/autoload'
     vimplug_file_path = autoload_dir + '/plug.vim'
-    print "Fetching plug.vim at", vimplug_url, "...",
+    print("Fetching plug.vim at", vimplug_url, "...", end=' ')
     if not os.path.isfile(vimplug_file_path):
-        print
+        print()
         try:
             e('curl -LO ' + vimplug_url)
         except:
-            print "Problems with fetching, check if curl works accordingly."
+            print("Problems with fetching, check if curl works accordingly.")
             exit()
         makedir(autoload_dir)
         e('mv plug.vim ' + autoload_dir)
     else:
-        print "already exists"
+        print("already exists")
                 
     if not os.path.isfile(vimplug_file_path):
-        print "A problem with fetching the vim.plug file"
+        print("A problem with fetching the vim.plug file")
         exit()
 
 def set_tmux_conf_symlink():
-    print "Setting tmux config file symlink", tmux_conf_path, "target to", tmux_conf_target, "...",
+    print("Setting tmux config file symlink", tmux_conf_path, "target to", tmux_conf_target, "...", end=' ')
     if os.path.isfile(tmux_conf_path):
-        print "already set"
+        print("already set")
     else:
         e('ln -s ' + tmux_conf_target + ' ' + tmux_conf_path)
-        print
+        print()
 
 def shellrc_not_set(shell='bash'):
     if shell == 'bash':
@@ -126,7 +129,7 @@ def shellrc_not_set(shell='bash'):
     
 def set_shellrc(shell='bash'):
     if shell == 'bash':
-        print "Setting bashrc ...", 
+        print("Setting bashrc ...", end=' ') 
         if shellrc_not_set('bash'):
             bashrc = open(bashrc_path, "a")
             bashrc.write("# toolsrc set (don't remove this comment line unless you remove all that is set by toolsrc setup script)\n")
@@ -137,25 +140,23 @@ def set_shellrc(shell='bash'):
             bashrc.write("done\n")
             bashrc.write("# end of toolsrc settings\n")
         else:
-            print "already set"
+            print("already set")
     if shell == 'zsh':
         require('zsh')
-        print "Setting up zsh"
+        print("Setting up zsh")
         if not os.path.exists(home_dir + "/.oh-my-zsh"):
             require('curl') 
             require('git') 
-            print "Installing oh-my-zsh..."
+            print("Installing oh-my-zsh...")
             try:
-                e('curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -o install-oh-my-zsh.sh')
-                for line in fileinput.input("install-oh-my-zsh.sh", inplace=True):
-                    print line.replace("env zsh\n", ""),
-                e('chmod u+x ./install-oh-my-zsh.sh')
-                e('sh -c ./install-oh-my-zsh.sh')
-                print "oh-my-zsh installed, zsh is set as default and will be actived next time you login"
+                e('wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh')
+                e('sh install.sh')
+                #e(['sh','-c','"$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'])
+                print("oh-my-zsh installed, zsh is set as default and will be actived next time you login")
             except:
-                print "oh-my-zsh install failed"
+                print("oh-my-zsh install failed")
         else:
-            print "oh-my-zsh already installed, remove ~/.oh-my-zsh in order to reinstall."
+            print("oh-my-zsh already installed, remove ~/.oh-my-zsh in order to reinstall.")
 
         if shellrc_not_set('zsh'):
             rc = open(zshrc_path, "a")
@@ -167,7 +168,7 @@ def set_shellrc(shell='bash'):
             rc.write("done\n")
             rc.write("# end of toolsrc settings\n")
         else:
-            print "zshrc already set by toolsrc setup"
+            print("zshrc already set by toolsrc setup")
 
 
 create_nvim_conf_path()
