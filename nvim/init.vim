@@ -12,13 +12,16 @@ Plug 'vim-scripts/CSApprox'
 Plug 'godlygeek/tabular'
 
 " autocompletion
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'zchee/deoplete-jedi'
+"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+"Plug 'zchee/deoplete-jedi'
 
 Plug 'scrooloose/nerdtree'
 Plug 'gcmt/taboo.vim'
 Plug 'vim-scripts/vim-coffee-script'
 Plug 'vim-scripts/jade.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'https://github.com/ettaka/vim-apdl.git'
+Plug 'mg979/vim-visual-multi', {'branch':'master'}
 call plug#end()
 " }}}
 " Basic settings ---------- {{{
@@ -28,6 +31,7 @@ set number
 set foldlevelstart=0
 set ruler
 colorscheme carbonized-dark
+" au FocusGained,BufEnter * checktime " autoread works only if this is on
 " }}}
 " Neomake stuff -------------------{{{
 " autocmd User NeomakeFinished copen
@@ -48,14 +52,15 @@ nnoremap <leader>' viw<esc>a'<esc>bi'<esc>
 nnoremap <leader>; `<i'<esc>`>a'<esc>
 nnoremap <leader>H 0
 nnoremap <leader>L $
+nnoremap ; :
 inoremap jj <esc>
 inoremap <esc> <nop>
 tnoremap jj <C-\><C-n>
 
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
+nnoremap <C-J> <C-W><C-J>:res<cr>
+nnoremap <C-K> <C-W><C-K>:res<cr>
+nnoremap <C-L> <C-W><C-L>:res<cr>
+nnoremap <C-H> <C-W><C-H>:res<cr>
 " }}}
 " Test Mappings ---------- {{{
 tnoremap <leader>cd <C-\><C-n>kyy:cd <C-R>" <CR>
@@ -75,7 +80,7 @@ vnoremap <silent> # :<C-U>
 " Python file settings ---------- {{{
 augroup filetype_python
   autocmd!
-  autocmd FileType python nnoremap <buffer> <localleader>c I#<esc>
+  autocmd FileType python nnoremap <buffer> <localleader>c I#<esc>j
 augroup END
 " }}}
 " Vimscript file settings ---------- {{{
@@ -100,8 +105,12 @@ let fortran_fold=1
 " }}}
 
 let g:python_host_prog="/home/eelis/miniconda2/envs/neovim2/bin/python"
-let g:python3_host_prog="/home/eelis/miniconda2/envs/neovim3/bin/python3"
+"let g:python3_host_prog="/home/eelis/miniconda2/envs/neovim3/bin/python3"
 
 set guicursor= " This is needed for tmux
 let g:deoplete#enable_at_startup = 1
 
+" vim-visual-multi -------------------------{{{
+let g:VM_leader = '\\'
+
+" }}}
