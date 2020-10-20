@@ -51,6 +51,7 @@ nnoremap <leader>; `<i'<esc>`>a'<esc>
 nnoremap <leader>H 0
 nnoremap <leader>L $
 nnoremap ; :
+nnoremap <esc> :NERDTreeToggle<cr>
 inoremap jj <esc>
 inoremap <esc> <nop>
 tnoremap jj <C-\><C-n>
