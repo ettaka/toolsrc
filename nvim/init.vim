@@ -18,13 +18,16 @@ Plug 'godlygeek/tabular'
 Plug 'scrooloose/nerdtree'
 Plug 'gcmt/taboo.vim'
 Plug 'vim-scripts/vim-coffee-script'
-Plug 'vim-scripts/jade.vim'
+Plug 'digitaltoad/vim-pug'
 Plug 'ettaka/vim-apdl'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+Plug 'pangloss/vim-javascript'
+Plug 'ternjs/tern_for_vim', { 'do' : 'npm install' }
 call plug#end()
 " }}}
 " Basic settings ---------- {{{
 filetype plugin indent on    " required
+set omnifunc=syntaxcomplete#Complete
 syntax on
 set number
 set foldlevelstart=0
@@ -104,7 +107,7 @@ let fortran_fold=1
 " }}}
 
 let g:python_host_prog="/home/eelis/miniconda2/envs/neovim2/bin/python"
-let g:python3_host_prog="/home/eelis/miniconda2/envs/neovim3/bin/python3"
+let g:python3_host_prog="/home/eelis/miniconda3/bin/python"
 
 set guicursor= " This is needed for tmux
 
