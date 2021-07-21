@@ -1,7 +1,6 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 iabbrev @@ eelis.takala@gmail.com
-
 " vim-plug settings ---------- {{{
 call plug#begin()
 Plug 'ettaka/vim-elmer'
@@ -10,7 +9,6 @@ Plug 'Neomake/neomake'
 Plug 'rafi/awesome-vim-colorschemes'
 Plug 'vim-scripts/CSApprox'
 Plug 'godlygeek/tabular'
-
 " autocompletion
 Plug 'scrooloose/nerdtree'
 Plug 'gcmt/taboo.vim'
@@ -20,9 +18,16 @@ Plug 'tpope/vim-fugitive'
 Plug 'https://github.com/ettaka/vim-apdl.git'
 Plug 'mg979/vim-visual-multi', {'branch':'master'}
 Plug 'ettaka/vim-apdl'
+" Plug 'ettaka/nvim-lua-plugin-test', {'branch':'main'}
+" Telescope
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'neovim/nvim-lspconfig'
 call plug#end()
 " }}}
 " Basic settings ---------- {{{
+set clipboard+=unnamedplus 
 filetype plugin indent on    " required
 syntax on
 set number
@@ -50,12 +55,9 @@ nnoremap <leader>' viw<esc>a'<esc>bi'<esc>
 nnoremap <leader>; `<i'<esc>`>a'<esc>
 nnoremap <leader>H 0
 nnoremap <leader>L $
-nnoremap ; :
-nnoremap <esc> :NERDTreeToggle<cr>
 inoremap jj <esc>
 inoremap <esc> <nop>
 tnoremap jj <C-\><C-n>
-
 nnoremap <C-J> <C-W><C-J>:res<cr>
 nnoremap <C-K> <C-W><C-K>:res<cr>
 nnoremap <C-L> <C-W><C-L>:res<cr>
@@ -75,7 +77,6 @@ vnoremap <silent> # :<C-U>
   \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
   \gV:call setreg('"', old_reg, old_regtype)<CR>
 " }}}
-"
 " Python file settings ---------- {{{
 augroup filetype_python
   autocmd!
@@ -104,17 +105,24 @@ function! FoldColumnToggle()
 endfunction
 let fortran_fold=1
 " }}}
-
-let g:python_host_prog="/home/eelis/miniconda2/envs/neovim2/bin/python"
-"let g:python3_host_prog="/home/eelis/miniconda2/envs/neovim3/bin/python3"
-
 set guicursor= " This is needed for tmux
-
-" vim visual multi -------------------------{{{
-let g:VM_leader='\\'
-" }}}
-
 " vim-visual-multi -------------------------{{{
 let g:VM_leader = '\\'
-
+" }}}
+" Telescope -------------------------{{{
+" Find files using Telescope command-line sugar.
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+nnoremap <leader>f* yiw<cmd>Telescope grep_string<cr><C-R>"
+vnoremap <leader>f* y:Telescope grep_string<CR><C-r>"
+" }}}
+" LSP servers -------------------------{{{
+lua << EOF
+require'lspconfig'.fortls.setup{}
+EOF
+lua << EOF
+require'lspconfig'.pyls.setup{}
+EOF
 " }}}
