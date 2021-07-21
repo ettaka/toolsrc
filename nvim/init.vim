@@ -55,9 +55,9 @@ nnoremap <leader>' viw<esc>a'<esc>bi'<esc>
 nnoremap <leader>; `<i'<esc>`>a'<esc>
 nnoremap <leader>H 0
 nnoremap <leader>L $
-inoremap jj <esc>
-inoremap <esc> <nop>
-tnoremap jj <C-\><C-n>
+" inoremap jj <esc>
+" inoremap <esc> <nop>
+tnoremap <leader><esc> <C-\><C-n>
 nnoremap <C-J> <C-W><C-J>:res<cr>
 nnoremap <C-K> <C-W><C-K>:res<cr>
 nnoremap <C-L> <C-W><C-L>:res<cr>
