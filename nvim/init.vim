@@ -24,6 +24,10 @@ Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/completion-nvim'
+Plug 'jiangmiao/auto-pairs'
+Plug 'untitled-ai/jupyter_ascending.vim'
+Plug 'ER-solutions/jupyter-nvim'
 call plug#end()
 " }}}
 " Basic settings ---------- {{{
@@ -78,11 +82,33 @@ vnoremap <silent> # :<C-U>
   \gV:call setreg('"', old_reg, old_regtype)<CR>
 " }}}
 " Python file settings ---------- {{{
+" Run split terminal at current path -------------------------{{{
+" Create a function to open a neovim terminal in a small split window and run python 
+function! Termrun()
+	let @a="conda activate kqcircuits; cd ".expand('%:p:h')
+	exec winheight(0)/4."split" | terminal 
+endfunction
+autocmd FileType python nnoremap <leader>t :call Termrun()<CR>"api<CR>
+" }}}
+" Run python in split terminal -------------------------{{{
+" Create a function to open a neovim terminal in a small split window and run python 
+function! Termpy()
+	let @a="conda activate kqcircuits; cd ".expand('%:p:h').";python ".expand('%:t')
+	exec "split" | terminal 
+endfunction
+
+function! TermKlayoutPy()
+	let @a="conda activate kqcircuits; cd ".expand('%:p:h').";klayout -z -r ".expand('%:t')
+	exec "split" | terminal 
+endfunction
+" }}}
 augroup filetype_python
   autocmd!
-  autocmd FileType python nnoremap <buffer> <localleader>c I#<esc>j
+  autocmd FileType python nnoremap <buffer> <localleader>c I# <esc>j
 	autocmd FileType python map <buffer> <F9> :w<CR>:exec '!python3' shellescape(@%, 1)<CR>
   autocmd FileType python imap <buffer> <F9> <esc>:w<CR>:exec '!python3' shellescape(@%, 1)<CR>
+  autocmd FileType python nnoremap <leader><CR> :call Termpy()<CR>"api<CR><C-\><C-n>Giexit
+  autocmd FileType python nnoremap <leader>k<CR> :call TermKlayoutPy()<CR>"api<CR><C-\><C-n>Giexit
 augroup END
 " }}}
 " Vimscript file settings ---------- {{{
@@ -123,6 +149,41 @@ lua << EOF
 require'lspconfig'.fortls.setup{}
 EOF
 lua << EOF
-require'lspconfig'.pyls.setup{}
+--require'lspconfig'.pyright.setup{}
+require'lspconfig'.pylsp.setup{on_attach=require'completion'.on_attach}
 EOF
+" use omni completion provided by lsp
+autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
+
+nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+
 " }}}
+" Code completion-------------------------{{{
+autocmd BufEnter * lua require'completion'.on_attach()
+" Use <Tab> and <S-Tab> to navigate through popup menu
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" Set completeopt to have a better completion experience
+set completeopt=menuone,noinsert,noselect
+
+" Avoid showing message extra message when using completion
+set shortmess+=c
+let g:completion_enable_snippet = 'Neosnippet'
+
+" }}}
+" Utilities for Jupyter notebooks-------------------------{{{
+"
+nmap <space><space>x <Plug>JupyterExecute
+nmap <space><space>X <Plug>JupyterExecuteAll
+" lua require("jupyter-nvim").set_test_mappings()
+
+" }}}
+
