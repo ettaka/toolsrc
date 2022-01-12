@@ -66,8 +66,6 @@ nnoremap <C-J> <C-W><C-J>:res<cr>
 nnoremap <C-K> <C-W><C-K>:res<cr>
 nnoremap <C-L> <C-W><C-L>:res<cr>
 nnoremap <C-H> <C-W><C-H>:res<cr>
-" }}}
-" Test Mappings ---------- {{{
 tnoremap <leader>cd <C-\><C-n>kyy:cd <C-R>" <CR>
 " Search for selected text, forwards or backwards.
 vnoremap <silent> * :<C-U>
@@ -80,6 +78,9 @@ vnoremap <silent> # :<C-U>
   \gvy?<C-R><C-R>=substitute(
   \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
   \gV:call setreg('"', old_reg, old_regtype)<CR>
+" }}}
+" Test Mappings ---------- {{{
+command! -nargs=1 Dsaveas saveas %:p:h/<args>
 " }}}
 " Python file settings ---------- {{{
 " Run split terminal at current path -------------------------{{{
