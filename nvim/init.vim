@@ -25,7 +25,6 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/completion-nvim'
-Plug 'jiangmiao/auto-pairs'
 Plug 'untitled-ai/jupyter_ascending.vim'
 Plug 'ER-solutions/jupyter-nvim'
 call plug#end()
