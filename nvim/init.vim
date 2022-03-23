@@ -170,7 +170,7 @@ nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 lua << EOF
 require("null-ls").setup({
     sources = {
-        require("null-ls").builtins.diagnostics.flake8,
+        require("null-ls").builtins.diagnostics.pylint,
     },
 })
 EOF
