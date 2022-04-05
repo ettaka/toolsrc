@@ -27,6 +27,7 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/completion-nvim'
 Plug 'untitled-ai/jupyter_ascending.vim'
 Plug 'ER-solutions/jupyter-nvim'
+Plug 'jose-elias-alvarez/null-ls.nvim'
 call plug#end()
 " }}}
 " Basic settings ---------- {{{
@@ -165,19 +166,14 @@ nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
 nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 
 " }}}
-" Code completion-------------------------{{{
-autocmd BufEnter * lua require'completion'.on_attach()
-" Use <Tab> and <S-Tab> to navigate through popup menu
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-" Set completeopt to have a better completion experience
-set completeopt=menuone,noinsert,noselect
-
-" Avoid showing message extra message when using completion
-set shortmess+=c
-let g:completion_enable_snippet = 'Neosnippet'
-
+" null-ls -------------------------{{{
+lua << EOF
+require("null-ls").setup({
+    sources = {
+        require("null-ls").builtins.diagnostics.pylint,
+    },
+})
+EOF
 " }}}
 " Utilities for Jupyter notebooks-------------------------{{{
 "
@@ -187,3 +183,7 @@ nmap <space><space>X <Plug>JupyterExecuteAll
 
 " }}}
 
+" for nvim 7.0
+" set laststatus=3
+" highlight WinSeparator guibg=None
+" https://youtu.be/jH5PNvJIa6o
