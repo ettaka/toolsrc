@@ -27,7 +27,7 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/completion-nvim'
 Plug 'untitled-ai/jupyter_ascending.vim'
 Plug 'ER-solutions/jupyter-nvim'
-Plug 'jose-elias-alvarez/null-ls.nvim'
+Plug 'jose-elias-alvarez/null-ls.nvim', {'branch':'main'}
 call plug#end()
 " }}}
 " Basic settings ---------- {{{
