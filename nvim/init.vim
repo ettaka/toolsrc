@@ -69,6 +69,9 @@ nnoremap <leader>' viw<esc>a'<esc>bi'<esc>
 nnoremap <leader>; `<i'<esc>`>a'<esc>
 nnoremap <leader>H 0
 nnoremap <leader>L $
+" Set a key-mapping for copy and pasting to the system clipboard
+:vnoremap <Leader>y "+y
+:nnoremap <Leader>p "+p
 " inoremap jj <esc>
 " inoremap <esc> <nop>
 tnoremap <leader><esc> <C-\><C-n>
