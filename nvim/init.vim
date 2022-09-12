@@ -122,6 +122,27 @@ augroup filetype_python
   autocmd FileType python nnoremap <leader>k<CR> :call TermKlayoutPy()<CR>"api<CR><C-\><C-n>Giexit
 augroup END
 " }}}
+" sh file settings ---------- {{{
+" Run split terminal at current path -------------------------{{{
+" Create a function to open a neovim terminal in a small split window and run python 
+function! Termrunsh()
+	let @a="cd ".expand('%:p:h')
+	exec winheight(0)/4."split" | terminal 
+endfunction
+autocmd FileType shell nnoremap <leader>t :call Termrunsh()<CR>"api<CR>
+" }}}
+" Run shell script in split terminal -------------------------{{{
+" Create a function to open a neovim terminal in a small split window and run python 
+function! Termsh()
+	let @a="cd ".expand('%:p:h').";./".expand('%:t')
+	exec "split" | terminal 
+endfunction
+" }}}
+augroup filetype_shell
+  autocmd!
+  autocmd FileType sh nnoremap <leader><CR> :call Termsh()<CR>"api<CR><C-\><C-n>Giexit
+augroup END
+" }}}
 " Vimscript file settings ---------- {{{
 augroup filetype_vim
   autocmd!
