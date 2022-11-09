@@ -291,5 +291,5 @@ nmap <space><space>X <Plug>JupyterExecuteAll
 
 " for nvim 7.0
 " https://youtu.be/jH5PNvJIa6o
-set laststatus=3
-highlight WinSeparator guibg=None
+" set laststatus=3
+" highlight WinSeparator guibg=None
