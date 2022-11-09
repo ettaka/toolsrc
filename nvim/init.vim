@@ -27,8 +27,6 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/completion-nvim'
 Plug 'untitled-ai/jupyter_ascending.vim'
 Plug 'ER-solutions/jupyter-nvim'
-Plug 'jose-elias-alvarez/null-ls.nvim'
-
 " completion
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
@@ -38,6 +36,7 @@ Plug 'hrsh7th/nvim-cmp'
 " For vsnip users.
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
+Plug 'jose-elias-alvarez/null-ls.nvim', {'branch':'main'}
 call plug#end()
 " }}}
 " Basic settings ---------- {{{
