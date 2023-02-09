@@ -35,4 +35,5 @@ return require('packer').startup(function(use)
 			{'rafamadriz/friendly-snippets'}, -- Optional
 		}
 	}
+    use 'mg979/vim-visual-multi'
 end)
