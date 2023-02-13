@@ -114,6 +114,11 @@ function! TermKlayoutPy()
 	let @a="conda activate kqcircuits; cd ".expand('%:p:h').";klayout -z -r ".expand('%:t')
 	exec "split" | terminal 
 endfunction
+
+function! TermKQCSim()
+	let @a="module load elmer/devel;conda activate kqcircuits; cd ".expand('%:p:h').";python $KQC/klayout_package/python/scripts/simulations/export_and_run.py ".expand('%:t')." -q"
+	exec "split" | terminal 
+endfunction
 " }}}
 augroup filetype_python
   autocmd!
@@ -122,6 +127,7 @@ augroup filetype_python
   autocmd FileType python imap <buffer> <F9> <esc>:w<CR>:exec '!python3' shellescape(@%, 1)<CR>
   autocmd FileType python nnoremap <leader><CR> :call Termpy()<CR>"api<CR><C-\><C-n>Giexit
   autocmd FileType python nnoremap <leader>k<CR> :call TermKlayoutPy()<CR>"api<CR><C-\><C-n>Giexit
+  autocmd FileType python nnoremap <leader>s<CR> :call TermKQCSim()<CR>"api<CR><C-\><C-n>Giexit
 augroup END
 " }}}
 " sh file settings ---------- {{{
