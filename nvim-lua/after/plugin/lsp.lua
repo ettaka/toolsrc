@@ -41,3 +41,22 @@ local on_attach = function(client, bufnr)
 end
 
 lsp.setup()
+
+-- Set pylint as the default linter
+require('lspconfig')['pylsp'].setup{
+    settings = {
+        root_dir = os.getenv("PWD"),
+        pylsp = {
+            plugins = {
+                pycodestyle = {
+                    enabled = false
+                },
+                pylint = {
+                    enabled = true,
+                    executable = "pylint",
+                },
+            }
+        }
+    }
+}
+
