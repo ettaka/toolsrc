@@ -3,6 +3,28 @@
 local lsp = require('lsp-zero')
 lsp.preset('recommended')
 
+-- Set pylint as the default linter
+lsp.configure('pylsp', {
+    on_attach = function(client, bufnr)
+        print("Starting pylsp")
+    end,
+    settings = {
+        root_dir = os.getenv("PWD"),
+        pylsp = {
+            plugins = {
+                pycodestyle = {
+                    enabled = false
+                },
+                pylint = {
+                    enabled = true,
+                    executable = "pylint",
+                },
+            }
+        }
+    }
+})
+
+
 -- (Optional) Configure lua language server for neovim
 lsp.nvim_workspace()
 
@@ -41,22 +63,4 @@ local on_attach = function(client, bufnr)
 end
 
 lsp.setup()
-
--- Set pylint as the default linter
-require('lspconfig')['pylsp'].setup{
-    settings = {
-        root_dir = os.getenv("PWD"),
-        pylsp = {
-            plugins = {
-                pycodestyle = {
-                    enabled = false
-                },
-                pylint = {
-                    enabled = true,
-                    executable = "pylint",
-                },
-            }
-        }
-    }
-}
 
