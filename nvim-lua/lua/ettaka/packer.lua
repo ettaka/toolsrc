@@ -43,4 +43,6 @@ return require('packer').startup(function(use)
             {'BlakeJC94/alpha-nvim-fortune'},
         },
     }
+
+    use 'ettaka/vim-elmer'
 end)
