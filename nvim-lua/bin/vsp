@@ -1,0 +1,2 @@
+#!/bin/bash
+nvim --server $NVIM --remote-send "\<Esc>:vsp $PWD/$1<CR>"
