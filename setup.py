@@ -4,12 +4,18 @@ import subprocess
 import os
 import fileinput
 
+HOME=os.getenv('HOME')
+vimscript=False
 home_dir = os.path.expanduser("~")  
 working_dir = os.getcwd()
 nvim_install_dir = home_dir + "/bin"
 nvim_conf_path = home_dir + "/.config/nvim"
-nvim_init_path = nvim_conf_path + "/init.vim"
-nvim_init_target = working_dir + "/nvim/init.vim"
+if vimscript:
+    nvim_init_path = nvim_conf_path + "/init.vim"
+    nvim_init_target = working_dir + "/nvim/init.vim"
+else:
+    nvim_init_path = nvim_conf_path
+    nvim_init_target = working_dir + "/nvim-lua"
 vimplug_url = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 tmux_conf_target = working_dir + "/tmux/tmux.conf"
 tmux_conf_path = home_dir + "/.tmux.conf"
@@ -55,9 +61,10 @@ def makedir(dir):
     return False
 
 def create_nvim_conf_path():
-    print("Creating Nvim configuration path", nvim_conf_path, "...", end=' ')
-    if not makedir(nvim_conf_path): print("already exists")
-    else: print()
+    if vimscript:
+        print("Creating Nvim configuration path", nvim_conf_path, "...", end=' ')
+        if not makedir(nvim_conf_path): print("already exists")
+        else: print()
 
 def create_nvim_init_symlink():
     print("Creating a symbolic link", nvim_init_path, "to target", nvim_init_target, "...", end=' ') 
@@ -107,6 +114,14 @@ def install_vim_plug():
     if not os.path.isfile(vimplug_file_path):
         print("A problem with fetching the vim.plug file")
         exit()
+
+def install_packer():
+    require('git')
+    try:
+        e('git clone --depth 1 https://github.com/wbthomason/packer.nvim {}/.local/share/nvim/site/pack/packer/start/packer.nvim'.format(HOME))
+    except:
+        print("Problems with cloning https://github.com/wbthomason/packer.nvim")
+        print("Please check the URL.")
 
 def set_tmux_conf_symlink():
     print("Setting tmux config file symlink", tmux_conf_path, "target to", tmux_conf_target, "...", end=' ')
@@ -174,7 +189,10 @@ def set_shellrc(shell='bash'):
 create_nvim_conf_path()
 create_nvim_init_symlink()
 install_nvim_appimage(nvim_install_dir)
-install_vim_plug()
+if vimscript:
+    install_vim_plug()
+else:
+    install_packer()
 set_tmux_conf_symlink()
 set_shellrc('bash')
 set_shellrc('zsh')
