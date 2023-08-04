@@ -4,7 +4,6 @@ import subprocess
 import os
 import fileinput
 
-HOME=os.getenv('HOME')
 vimscript=False
 home_dir = os.path.expanduser("~")  
 working_dir = os.getcwd()
@@ -21,6 +20,8 @@ tmux_conf_target = working_dir + "/tmux/tmux.conf"
 tmux_conf_path = home_dir + "/.tmux.conf"
 bashrc_path = home_dir + "/.bashrc"
 zshrc_path = home_dir + "/.zshrc"
+i3_config_path = home_dir + "/.config/i3/config"
+i3_config_target = working_dir + "/i3/config"
 
 def e(cmd):
     if type(cmd) == type([]):
@@ -118,7 +119,7 @@ def install_vim_plug():
 def install_packer():
     require('git')
     try:
-        e('git clone --depth 1 https://github.com/wbthomason/packer.nvim {}/.local/share/nvim/site/pack/packer/start/packer.nvim'.format(HOME))
+        e('git clone --depth 1 https://github.com/wbthomason/packer.nvim {}/.local/share/nvim/site/pack/packer/start/packer.nvim'.format(home_dir))
     except:
         print("Problems with cloning https://github.com/wbthomason/packer.nvim")
         print("Please check the URL.")
@@ -185,6 +186,13 @@ def set_shellrc(shell='bash'):
         else:
             print("zshrc already set by toolsrc setup")
 
+def set_i3_config_symlink():
+    print("Setting i3 config file symlink", i3_config_path, "target to", i3_config_target, "...", end=' ')
+    if os.path.isfile(i3_config_path):
+        print("Already set. Removing...")
+        e('rm ' + i3_config_path)
+    e('ln -s ' + i3_config_target + ' ' + i3_config_path)
+    print()
 
 create_nvim_conf_path()
 create_nvim_init_symlink()
@@ -196,3 +204,4 @@ else:
 set_tmux_conf_symlink()
 set_shellrc('bash')
 set_shellrc('zsh')
+set_i3_config_symlink()
