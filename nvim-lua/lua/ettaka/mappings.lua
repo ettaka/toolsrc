@@ -19,3 +19,8 @@ vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 vim.env.PATH=vim.env.PATH..":"..vim.env.HOME.."/.config/nvim/bin/"
+
+-- Define a kqc command
+vim.cmd('command! -nargs=0 Kqc execute "!klayout -e -rm /home/eelis/git/KQCircuits/util/create_element_from_path.py -rd element_path=" . expand("%:p") | redraw!')
+-- Create a mapping to run the kqc command
+vim.cmd("nnoremap <leader>kqc :Kqc<CR>")

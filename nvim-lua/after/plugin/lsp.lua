@@ -17,7 +17,7 @@ lsp.configure('pylsp', {
                 },
                 pylint = {
                     enabled = true,
-                    executable = "pylint",
+                    executable = "source activate kqcircuits && pylint",
                 },
             }
         }
