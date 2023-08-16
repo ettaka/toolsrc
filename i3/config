@@ -163,6 +163,10 @@ bindsym Mod1+Shift+r restart
 # exit i3 (logs you out of your X session)
 # bindsym Mod1+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 bindsym $mod+Shift+e exec sh -c '[ $(echo "yes\nno"|dmenu -i -p "Do you really want to exit i3?") = "yes" ] && i3-msg exit'
+# # Make switching between us and fi keyboard layouts with Alt+shift
+bindsym Shift+space exec sh -c 'setxkbmap -query | grep "layout:" | grep us && setxkbmap fi || setxkbmap us'
+# exec "setxkmap -layout us,fi"
+# exec "setxkmap -option 'grp:alt_shift_toggle'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
