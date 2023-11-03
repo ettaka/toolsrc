@@ -216,3 +216,5 @@ exec i3-config-wizard
 ##
 # Default split orientation should be vertical
 default_orientation horizontal
+
+focus_follows_mouse no
