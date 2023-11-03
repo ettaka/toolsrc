@@ -1,2 +1,7 @@
 #!/bin/bash
-nvim --server $NVIM --remote-send "\<Esc>:vsp $PWD/$1<CR>"
+
+if [[ -z "${NVIM}" ]]; then
+    nvim $PWD/$1
+else
+    nvim --server $NVIM --remote-send "\<Esc>:vsp $PWD/$1<CR>"
+fi
