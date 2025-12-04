@@ -19,7 +19,8 @@ end
 function KQC_open_element()
     local file = vim.fn.expand('%')
     local enter_key = vim.api.nvim_replace_termcodes("<CR>", true, false, true)
-    local cmd = "ikl "..file..enter_key.."exit"
+    local cmd = "iklayout -e -rm /home/eelis/git/KQCircuits/util/create_element_from_path.py -rd element_path="..file..enter_key.."exit"
+--    klayout -e -rm {FULL PATH TO create_element_from_path.py} -rd element_path="
     vim.cmd("sp")
     vim.cmd("te")
     vim.api.nvim_feedkeys(cmd, "i", true)
