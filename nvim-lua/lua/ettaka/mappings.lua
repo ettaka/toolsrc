@@ -1,11 +1,3 @@
-function Launch_terminal_in_file_location()
-    local folder = vim.fn.expand('%:p:h')
-    local enter_key = vim.api.nvim_replace_termcodes("<CR>", true, false, true)
-    vim.cmd("sp")
-    vim.cmd("te")
-    vim.api.nvim_feedkeys("icd "..folder..enter_key, "i", true)
-end
-vim.keymap.set("n", "<leader>t", Launch_terminal_in_file_location)
 vim.keymap.set("n", "<leader>ev", function () vim.cmd("vsp ~/.config/nvim/") end)
 vim.keymap.set("n", "<leader>a", function () vim.cmd("vsp"); vim.cmd("Alpha") end)
 vim.keymap.set("n", "<C-h>", "<C-w>h:res<CR>")
