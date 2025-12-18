@@ -19,6 +19,7 @@ vim.lsp.config['pyright'] = {
       analysis = {
         typeCheckingMode = "basic",
         autoSearchPaths = true,  -- make Pyright search sys.path automatically
+        useLibraryCodeForTypes = true,
       },
     },
   },
