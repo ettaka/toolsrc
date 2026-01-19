@@ -17,3 +17,8 @@ vim.keymap.set('n', '<leader>fb', function()
   builtin.buffers({ cwd = git_root() })
 end)
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+
+require('telescope').setup{
+  defaults = { mappings = { i = { ["<CR>"] = require('telescope.actions').select_default } } }
+}
+
