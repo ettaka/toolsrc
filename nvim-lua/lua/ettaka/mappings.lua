@@ -16,3 +16,10 @@ vim.env.PATH=vim.env.PATH..":"..vim.env.HOME.."/.config/nvim/bin/"
 vim.cmd('command! -nargs=0 Kqc execute "!klayout -e -rm /home/eelis/git/KQCircuits/util/create_element_from_path.py -rd element_path=" . expand("%:p") | redraw!')
 -- Create a mapping to run the kqc command
 vim.cmd("nnoremap <leader>kqc :Kqc<CR>")
+
+local function insert_timestamp()
+  local timestamp = os.date("%Y-%m-%dT%H:%M")
+  vim.api.nvim_put({ timestamp }, "c", true, true)
+end
+
+vim.keymap.set("n", "<leader>ts", insert_timestamp, { desc = "Insert timestamp" })
