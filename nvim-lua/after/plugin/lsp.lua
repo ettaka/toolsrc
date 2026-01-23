@@ -28,6 +28,45 @@ vim.lsp.config['pyright'] = {
 -- Enable the server
 vim.lsp.enable('pyright')
 
+-- Define FortLS configuration
+vim.lsp.config['fortls'] = {
+  cmd = { 'fortls' },
+  filetypes = { 'fortran' },
+  capabilities = capabilities,
+
+  root_markers = {
+    { '.fortls', 'CMakeLists.txt', 'Makefile' },
+    '.git',
+  },
+
+  settings = {
+    fortls = {
+      -- General behavior
+      incremental_sync = true,
+      debounce_text_changes = 150,
+
+      -- Diagnostics
+      disable_diagnostics = false,
+      max_line_length = 132,
+
+      -- Code intelligence
+      autocomplete = true,
+      hover_signature = true,
+      use_signature_help = true,
+
+      -- Project parsing
+      source_dirs = { '.' },
+      include_dirs = { '.' },
+
+      -- Formatting (optional)
+      enable_code_actions = true,
+    },
+  },
+}
+
+-- Enable the server
+vim.lsp.enable('fortls')
+
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap=true, silent=true }

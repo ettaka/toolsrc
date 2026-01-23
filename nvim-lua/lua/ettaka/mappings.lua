@@ -1,9 +1,9 @@
 vim.keymap.set("n", "<leader>ev", function () vim.cmd("vsp ~/.config/nvim/") end)
 vim.keymap.set("n", "<leader>a", function () vim.cmd("vsp"); vim.cmd("Alpha") end)
-vim.keymap.set("n", "<C-h>", "<C-w>h:res<CR>")
-vim.keymap.set("n", "<C-j>", "<C-w>j:res<CR>")
-vim.keymap.set("n", "<C-k>", "<C-w>k:res<CR>")
-vim.keymap.set("n", "<C-l>", "<C-w>l:res<CR>")
+vim.keymap.set("n", "<C-h>", "`A")
+vim.keymap.set("n", "<C-j>", "`S")
+vim.keymap.set("n", "<C-k>", "`D")
+vim.keymap.set("n", "<C-l>", "`F")
 vim.keymap.set("n", "<CR>", ":nohlsearch<CR><CR>")
 vim.keymap.set("t", "<leader><Esc>", "<C-\\><C-n>")
 
