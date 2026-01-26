@@ -22,4 +22,4 @@ local function insert_timestamp()
   vim.api.nvim_put({ timestamp }, "c", true, true)
 end
 
-vim.keymap.set("n", "<leader>ts", insert_timestamp, { desc = "Insert timestamp" })
+vim.keymap.set({"n", "i", "t"}, "<leader>ts", insert_timestamp, { desc = "Insert timestamp" })

@@ -56,7 +56,7 @@ function ToggleFloatTerm()
   vim.cmd("startinsert")
 end
 
-vim.keymap.set({ "n", "t" }, "<leader>t", function()
+vim.keymap.set({ "n", "t" }, "<leader><space>", function()
   vim.cmd("stopinsert")
   ToggleFloatTerm()
 end, { desc = "Toggle buffer-local floating terminal" })
