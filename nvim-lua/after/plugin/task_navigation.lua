@@ -83,7 +83,7 @@ local function insert_new_task_id()
 end
 
 -- mappings
-vim.keymap.set("n", "<leader>zt", jump_to_task_definition, { desc = "Jump to task definition (Telescope)" })
+vim.keymap.set("n", "<leader>jt", jump_to_task_definition, { desc = "Jump to task definition (Telescope)" })
 vim.keymap.set("n", "<leader>tb", task_backlinks, { desc = "Task backlinks (Telescope)" })
 vim.keymap.set("i", "<C-t>", insert_new_task_id, { desc = "Insert new task ID" })
 
