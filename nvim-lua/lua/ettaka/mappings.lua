@@ -23,3 +23,17 @@ local function insert_timestamp()
 end
 
 vim.keymap.set({"n", "i", "t"}, "<leader>ts", insert_timestamp, { desc = "Insert timestamp" })
+
+-- dd removes an entry from quickfix list
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "qf",
+  callback = function()
+    vim.keymap.set("n", "dd", function()
+      local qf = vim.fn.getqflist()
+      table.remove(qf, vim.fn.line("."))
+      vim.fn.setqflist(qf, "r")
+      vim.cmd("copen")
+    end, { buffer = true })
+  end,
+})
+
