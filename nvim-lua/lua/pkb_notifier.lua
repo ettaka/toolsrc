@@ -248,7 +248,7 @@ function M.inbox()
 
     local n = visible[idx]
     if n then
-      n.dismissed = true
+      n.dismissed = not n.dismissed
       render()
     end
   end, { buffer = buf })

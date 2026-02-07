@@ -43,4 +43,10 @@ return require('packer').startup(function(use)
         'renerocksai/telekasten.nvim',
         requires = {'nvim-telescope/telescope.nvim'}
     }
+    use {
+        "stevearc/oil.nvim",
+        config = function()
+            require("oil").setup()
+        end,
+    }
 end)
