@@ -1,5 +1,3 @@
--- PKB Notifier — queued, focus-safe, Neovim-native
-
 local M = {}
 
 -- CONFIG
