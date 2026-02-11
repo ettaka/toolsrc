@@ -34,12 +34,12 @@ end
 
 local function render()
   local lines = {}
-  table.insert(lines, os.date("%B %Y", os.time {
+  table.insert(lines, os.date(" %B %Y", os.time {
     year = state.year,
     month = state.month,
     day = 1,
   }))
-  table.insert(lines, "Su Mo Tu We Th Fr Sa")
+  table.insert(lines, " Su  Mo  Tu  We  Th  Fr  Sa")
 
   local start_wday = first_weekday(state.year, state.month)
   local week = {}
@@ -48,32 +48,34 @@ local function render()
   local total_days = days_in_month(state.year, state.month)
 
   for _ = 1, start_wday do
-    table.insert(week, "  ")
+    table.insert(week, "    ")
   end
 
   for day = 1, total_days do
     local label = string.format("%2d", day)
 
-    if day == today.day
-      and state.month == today.month
-      and state.year == today.year then
-      label = "•" .. string.format("%2d", day)
-    end
-
     if day == state.day then
       label = "[" .. string.format("%2d", day) .. "]"
+    else
+      if day == today.day
+        and state.month == today.month
+        and state.year == today.year then
+        label = "•" .. string.format("%2d", day) .. " "
+      else
+        label = " " .. string.format("%2d", day) .. " "
+      end
     end
 
     table.insert(week, label)
 
     if #week == 7 then
-      table.insert(lines, table.concat(week, " "))
+      table.insert(lines, table.concat(week, ""))
       week = {}
     end
   end
 
   if #week > 0 then
-    table.insert(lines, table.concat(week, " "))
+    table.insert(lines, table.concat(week, ""))
   end
 
   vim.api.nvim_buf_set_option(buf, "modifiable", true)
@@ -122,7 +124,7 @@ function M.open()
 
   buf = vim.api.nvim_create_buf(false, true)
 
-  local width, height = 32, 9
+  local width, height = 28, 8
   local row = math.floor((vim.o.lines - height) / 2)
   local col = math.floor((vim.o.columns - width) / 2)
 
