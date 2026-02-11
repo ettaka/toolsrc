@@ -8,8 +8,15 @@ return require('packer').startup(function(use)
         'nvim-telescope/telescope.nvim', tag = '0.1.8',
         requires = { {'nvim-lua/plenary.nvim'} }
     }
-    use 'ellisonleao/gruvbox.nvim'
-    use 'mbbill/undotree'
+    use {
+        "sainnhe/everforest",
+        config = function()
+            vim.g.everforest_background = "medium"
+            vim.g.everforest_enable_italic = 1
+            vim.cmd("colorscheme everforest")
+        end
+    }
+
     use 'tpope/vim-fugitive'
     -- LSP: built-in client (no plugin needed)
     -- Completion plugins:
