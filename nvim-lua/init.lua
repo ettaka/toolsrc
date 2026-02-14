@@ -1,3 +1,5 @@
 require("ettaka")
 require("pkb_notifier")
+require("pkb_sync")
 require("calendar")
+require("mount_phone")
