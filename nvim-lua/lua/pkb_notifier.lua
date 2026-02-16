@@ -1,15 +1,26 @@
+-- ============================================================
+-- PKB Notifier — queued, focus-safe, Neovim-native
+-- ============================================================
+
 local M = {}
 
+---------------------------------------------------------------
 -- CONFIG
+---------------------------------------------------------------
 M.PKB_ROOT = "/home/eelis/pkb"  -- <<< change this
 M.DEFAULT_NOTIFY = "15min"
 
+---------------------------------------------------------------
 -- STATE
+---------------------------------------------------------------
 M.notifications = {}
+M.active_popups = {}
 M.popup_queue = {}
 M.popup_active = false
 
+---------------------------------------------------------------
 -- HELPERS
+---------------------------------------------------------------
 local function parse_iso(ts)
   local y, m, d, H, M_ = ts:match("(%d+)%-(%d+)%-(%d+)T(%d+):(%d+)")
   if not y then return nil end
@@ -31,7 +42,9 @@ local function parse_notify(str)
   return 0
 end
 
+---------------------------------------------------------------
 -- POPUP QUEUE LOGIC
+---------------------------------------------------------------
 local function show_next_popup()
   if M.popup_active then return end
 
@@ -76,6 +89,7 @@ local function show_next_popup()
       border = "rounded",
       style = "minimal",
     })
+    table.insert(M.active_popups, win)
 
     vim.api.nvim_set_current_win(win)
 
@@ -85,6 +99,15 @@ local function show_next_popup()
       end
       M.popup_active = false
       show_next_popup()
+    end
+
+    function close_all_popups()
+      for _,win in ipairs(M.active_popups) do
+        if vim.api.nvim_win_is_valid(win) then
+          vim.api.nvim_win_close(win, true)
+        end
+      end
+      M.active_popups = {}
     end
 
     vim.keymap.set("n", "<CR>", function()
@@ -99,10 +122,16 @@ local function show_next_popup()
     end, { buffer = buf })
 
     vim.keymap.set("n", "q", close_popup, { buffer = buf })
+
+    vim.keymap.set("n","Q",function()
+      close_all_popups()
+    end,{buffer=buf})
   end)
 end
 
+---------------------------------------------------------------
 -- SCHEDULING
+---------------------------------------------------------------
 local function schedule_notification(entry)
   local delay = entry.notify_ts - os.time()
   if delay < 0 then delay = 0 end
@@ -115,7 +144,9 @@ local function schedule_notification(entry)
   end, delay * 1000)
 end
 
+---------------------------------------------------------------
 -- PARSE LINE
+---------------------------------------------------------------
 local function parse_line(line, file)
   local due_str = line:match("due::([%dT:%-]+)")
   if not due_str then return end
@@ -140,7 +171,9 @@ local function parse_line(line, file)
   schedule_notification(entry)
 end
 
+---------------------------------------------------------------
 -- SCAN FILES
+---------------------------------------------------------------
 local function scan_file(file)
   local ok, lines = pcall(vim.fn.readfile, file)
   if not ok then return end
@@ -166,7 +199,9 @@ local function scan_dir(path)
   end
 end
 
+---------------------------------------------------------------
 -- COMMANDS
+---------------------------------------------------------------
 function M.notify()
   M.notifications = {}
   M.popup_queue = {}
@@ -227,7 +262,7 @@ function M.inbox()
   render()
   vim.api.nvim_set_current_buf(buf)
 
-  -- d - dismiss
+  -- d → dismiss
   vim.keymap.set("n", "d", function()
     local idx = vim.fn.line(".")
     local visible = {}
@@ -246,12 +281,12 @@ function M.inbox()
 
     local n = visible[idx]
     if n then
-      n.dismissed = not n.dismissed
+      n.dismissed = true
       render()
     end
   end, { buffer = buf })
 
-  -- <CR> - open task
+  -- <CR> → open task
   vim.keymap.set("n", "<CR>", function()
     local idx = vim.fn.line(".")
     local visible = {}
@@ -275,19 +310,21 @@ function M.inbox()
     vim.fn.search(vim.fn.escape(n.line, "\\/.*$^~[]"), "W")
   end, { buffer = buf })
 
-  -- t - toggle view (this is the important one)
+  -- t → toggle view (this is the important one)
   vim.keymap.set("n", "t", function()
     M.inbox_show_all = not M.inbox_show_all
     render()
   end, { buffer = buf })
 
-  -- q - close
+  -- q → close
   vim.keymap.set("n", "q", function()
     vim.api.nvim_buf_delete(buf, { force = true })
   end, { buffer = buf })
 end
 
+---------------------------------------------------------------
 -- SETUP
+---------------------------------------------------------------
 vim.api.nvim_create_user_command("PKBNotify", M.notify, {})
 vim.api.nvim_create_user_command("PKBInbox",  M.inbox,  {})
 
