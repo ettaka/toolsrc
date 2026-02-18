@@ -17,13 +17,6 @@ vim.cmd('command! -nargs=0 Kqc execute "!klayout -e -rm /home/eelis/git/KQCircui
 -- Create a mapping to run the kqc command
 vim.cmd("nnoremap <leader>kqc :Kqc<CR>")
 
-local function insert_timestamp()
-  local timestamp = os.date("%Y-%m-%dT%H:%M")
-  vim.api.nvim_put({ timestamp }, "c", true, true)
-end
-
-vim.keymap.set({"n", "i", "t"}, "<leader>ts", insert_timestamp, { desc = "Insert timestamp" })
-
 -- dd removes an entry from quickfix list
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "qf",

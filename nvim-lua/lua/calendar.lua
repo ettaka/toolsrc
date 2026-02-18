@@ -99,9 +99,34 @@ local function return_to_origin()
   end
 end
 
+local HOME_TZ = "+02:00"  -- must match your notifier module
+
+local function local_tz_suffix()
+  local z = os.date("%z") -- e.g. "+0200"
+
+  local sign, hh, mm = z:match("([%+%-])(%d%d)(%d%d)")
+  if not sign then return "" end
+
+  local formatted = string.format("%s%s:%s", sign, hh, mm)
+
+  if formatted == "+00:00" then
+    return "Z"
+  elseif formatted == HOME_TZ then
+    return "H"
+  else
+    return formatted
+  end
+end
+
 local function paste_timestamp()
   return_to_origin()
-  local ts = date_str() .. "T" .. os.date("%H:%M")
+  local ts = date_str() .. "T" .. os.date("%H:%M") .. local_tz_suffix()
+  vim.api.nvim_put({ ts }, "c", true, true)
+  close()
+end
+
+M.paste_timestamp_now  = function ()
+  local ts = os.date("%Y-%m-%dT%H:%M") .. local_tz_suffix()
   vim.api.nvim_put({ ts }, "c", true, true)
   close()
 end
@@ -180,4 +205,8 @@ function M.open()
   render()
 end
 
+vim.keymap.set({"n", "i", "t"}, "<leader>ts", M.paste_timestamp_now, { desc = "Insert timestamp" })
+
 return M
+
+

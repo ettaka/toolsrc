@@ -21,16 +21,68 @@ M.popup_active = false
 ---------------------------------------------------------------
 -- HELPERS
 ---------------------------------------------------------------
+
+
+---------------------------------------------------------------
+-- TIMESTAMP PARSER (Z / H / +offset support)
+---------------------------------------------------------------
+
+local HOME_TZ = "+02:00"  -- your home timezone
+
+-- convert offset string to seconds
+local function offset_to_seconds(sign, hh, mm)
+  return (tonumber(hh)*60 + tonumber(mm)) * 60 * (sign == "-" and -1 or 1)
+end
+
 local function parse_iso(ts)
-  local y, m, d, H, M_ = ts:match("(%d+)%-(%d+)%-(%d+)T(%d+):(%d+)")
+  -- match YYYY-MM-DDTHH:MM + suffix
+local y,m,d,H,M_,suffix
+
+-- Try Z or H first
+y,m,d,H,M_,suffix = ts:match("(%d%d%d%d)%-(%d%d)%-(%d%d)T(%d%d):(%d%d)([ZH])")
+
+-- If that failed, try numeric offset ±HH:MM
+if not y then
+    y,m,d,H,M_,suffix = ts:match(
+        "(%d%d%d%d)%-(%d%d)%-(%d%d)T(%d%d):(%d%d)([%+%-]%d%d:%d%d)"
+    )
+end
   if not y then return nil end
-  return os.time({
-    year  = tonumber(y),
-    month = tonumber(m),
-    day   = tonumber(d),
-    hour  = tonumber(H),
-    min   = tonumber(M_),
+
+  local year, month, day = tonumber(y), tonumber(m), tonumber(d)
+  local hour, min = tonumber(H), tonumber(M_)
+
+  -- convert local time to UTC seconds
+  local epoch = os.time({
+    year = year,
+    month = month,
+    day = day,
+    hour = hour,
+    min = min,
+    sec = 0,
   })
+
+  -- compute offset in seconds
+  local offset = 0
+  if suffix == "Z" then
+    -- UTC, offset = 0
+    offset = 0
+  elseif suffix == "H" then
+    local sign, hh, mm = HOME_TZ:match("([%+%-])(%d%d):(%d%d)")
+    offset = offset_to_seconds(sign, hh, mm)
+  else
+    local sign, hh, mm = suffix:match("([%+%-])(%d%d):(%d%d)")
+    if sign then
+      offset = offset_to_seconds(sign, hh, mm)
+    end
+  end
+
+  local now = os.time()
+  local local_offset = os.difftime(now, os.time(os.date("!*t", now)))
+
+  -- adjust: subtract offset to get UTC epoch
+  epoch = epoch - offset + local_offset
+  return epoch
 end
 
 local function parse_notify(str)
@@ -148,7 +200,7 @@ end
 -- PARSE LINE
 ---------------------------------------------------------------
 local function parse_line(line, file)
-  local due_str = line:match("due::([%dT:%-]+)")
+  local due_str = line:match("due::([^%s]+)")
   if not due_str then return end
 
   local notify_str = line:match("notify::([%w]+)") or M.DEFAULT_NOTIFY
