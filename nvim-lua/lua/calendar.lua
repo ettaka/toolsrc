@@ -101,7 +101,7 @@ end
 
 local HOME_TZ = "+02:00"  -- must match your notifier module
 
-local function local_tz_suffix()
+M.local_tz_suffix = function ()
   local z = os.date("%z") -- e.g. "+0200"
 
   local sign, hh, mm = z:match("([%+%-])(%d%d)(%d%d)")
@@ -120,13 +120,13 @@ end
 
 local function paste_timestamp()
   return_to_origin()
-  local ts = date_str() .. "T" .. os.date("%H:%M") .. local_tz_suffix()
+  local ts = date_str() .. "T" .. os.date("%H:%M") .. M.local_tz_suffix()
   vim.api.nvim_put({ ts }, "c", true, true)
   close()
 end
 
 M.paste_timestamp_now  = function ()
-  local ts = os.date("%Y-%m-%dT%H:%M") .. local_tz_suffix()
+  local ts = os.date("%Y-%m-%dT%H:%M") .. M.local_tz_suffix()
   vim.api.nvim_put({ ts }, "c", true, true)
   close()
 end
