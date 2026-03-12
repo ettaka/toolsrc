@@ -1,10 +1,7 @@
 require('telekasten').setup({
   home = vim.fn.expand("~/pkb"),
   template_new_note = vim.fn.expand("~/pkb/templates/template.md"),
-<<<<<<< Updated upstream
-=======
   template_new_daily = vim.fn.expand("~/pkb/templates/daily.md"),
->>>>>>> Stashed changes
   template_new_weekly = vim.fn.expand("~/pkb/templates/weekly.md"),
   template_new_monthly = vim.fn.expand("~/pkb/templates/monthly.md")
 })
