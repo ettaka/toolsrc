@@ -35,24 +35,38 @@ local function offset_to_seconds(sign, hh, mm)
 end
 
 local function parse_iso(ts)
-  -- match YYYY-MM-DDTHH:MM + suffix
-local y,m,d,H,M_,suffix
 
--- Try Z or H first
-y,m,d,H,M_,suffix = ts:match("(%d%d%d%d)%-(%d%d)%-(%d%d)T(%d%d):(%d%d)([ZH])")
+  local y,m,d,H,M_,suffix
 
--- If that failed, try numeric offset ±HH:MM
-if not y then
-    y,m,d,H,M_,suffix = ts:match(
-        "(%d%d%d%d)%-(%d%d)%-(%d%d)T(%d%d):(%d%d)([%+%-]%d%d:%d%d)"
-    )
-end
+  y,m,d,H,M_,suffix = ts:match("(%d%d%d%d)%-(%d%d)%-(%d%d)T(%d%d):(%d%d)([ZH])")
+  if not y then
+    y,m,d,H,M_,suffix =
+      ts:match("(%d%d%d%d)%-(%d%d)%-(%d%d)T(%d%d):(%d%d)([%+%-]%d%d:%d%d)")
+  end
+
   if not y then return nil end
 
-  local year, month, day = tonumber(y), tonumber(m), tonumber(d)
-  local hour, min = tonumber(H), tonumber(M_)
+  local year  = tonumber(y)
+  local month = tonumber(m)
+  local day   = tonumber(d)
+  local hour  = tonumber(H)
+  local min   = tonumber(M_)
 
-  -- convert local time to UTC seconds
+  local offset = 0
+
+  if suffix == "Z" then
+    offset = 0
+
+  elseif suffix == "H" then
+    local sign, hh, mm = HOME_TZ:match("([%+%-])(%d%d):(%d%d)")
+    offset = offset_to_seconds(sign, hh, mm)
+
+  else
+    local sign, hh, mm = suffix:match("([%+%-])(%d%d):(%d%d)")
+    offset = offset_to_seconds(sign, hh, mm)
+  end
+
+  -- construct UTC time
   local epoch = os.time({
     year = year,
     month = month,
@@ -60,29 +74,18 @@ end
     hour = hour,
     min = min,
     sec = 0,
+    isdst = false,
   })
 
-  -- compute offset in seconds
-  local offset = 0
-  if suffix == "Z" then
-    -- UTC, offset = 0
-    offset = 0
-  elseif suffix == "H" then
-    local sign, hh, mm = HOME_TZ:match("([%+%-])(%d%d):(%d%d)")
-    offset = offset_to_seconds(sign, hh, mm)
-  else
-    local sign, hh, mm = suffix:match("([%+%-])(%d%d):(%d%d)")
-    if sign then
-      offset = offset_to_seconds(sign, hh, mm)
-    end
-  end
+-- system offset at that specific time (handles DST correctly)
+local local_offset = os.difftime(
+  os.time(os.date("*t", epoch)),
+  os.time(os.date("!*t", epoch))
+)
 
-  local now = os.time()
-  local local_offset = os.difftime(now, os.time(os.date("!*t", now)))
+epoch = epoch - offset + local_offset
 
-  -- adjust: subtract offset to get UTC epoch
-  epoch = epoch - offset + local_offset
-  return epoch
+return epoch
 end
 
 local function parse_notify(str)
