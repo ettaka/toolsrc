@@ -1,4 +1,4 @@
-vim.g.mapleader = "\\"
+vim.g.mapleader = ","
 
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4

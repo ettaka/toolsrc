@@ -5,7 +5,7 @@ local M = {}
 --------------------------------------------------
 
 M.local_dir = vim.fn.expand("~/pkb/")
-M.phone_dir = vim.fn.expand("~/phone/Internal storage/Documents/pkb/")
+M.phone_dir = vim.fn.expand("~/storage/shared/Documents/pkb/")
 
 --------------------------------------------------
 -- UTILS

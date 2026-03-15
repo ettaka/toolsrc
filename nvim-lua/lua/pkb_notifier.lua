@@ -7,7 +7,7 @@ local M = {}
 ---------------------------------------------------------------
 -- CONFIG
 ---------------------------------------------------------------
-M.PKB_ROOT = "/home/eelis/pkb"  -- <<< change this
+M.PKB_ROOT = "/data/data/com.termux/files/home/pkb"  -- <<< change this
 M.DEFAULT_NOTIFY = "15min"
 M.POLL_INTERVAL = 30000        -- Poll every 30 seconds (ms)
 M.SNOOZE_INTERVAL = 30 * 60    -- Auto-snooze for 30 minutes (seconds) when closed with [q]

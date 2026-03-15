@@ -3,7 +3,7 @@
 -- ===============================
 
 -- CONFIG: set this to your PKB root folder
-local PKB_ROOT = "/home/eelis/pkb"  -- <<< change this to your vault/root
+local PKB_ROOT = "/data/data/com.termux/files/home/pkb"  -- <<< change this to your vault/root
 
 local TASK_ID_REGEX = "t%-%d%d%d%d%-%d%d%-%d%dT%d%d:%d%d"
 
