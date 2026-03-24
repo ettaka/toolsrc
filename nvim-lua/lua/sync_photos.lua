@@ -29,9 +29,9 @@ M.sync_photos = function(opts)
     local home = vim.fn.expand("~")
     local localDir = home .. "/phone/photos/"
     local remoteUser = "user"          -- change to your phone SSH username
-    local remoteHost = "127.0.0.1"
+    local remoteHost = "localhost"
     local remotePort = "8022"
-    local remotePhotosDir = "/data/data/com.termux/files/home/storage/DCIM/Camera/"
+    local remotePhotosDir = "/data/data/com.termux/files/home/storage/dcim/Camera/"
 
     local dates = {}
     if #opts.fargs == 2 then
@@ -66,8 +66,8 @@ M.sync_photos = function(opts)
 
             -- Rsync only files from list
             local rsyncCmd = string.format(
-                'rsync -avz -e "ssh -p %s" --files-from=%s %s@%s:/ %s',
-                remotePort, tmpFile, remoteUser, remoteHost, destDir
+               'rsync -avz --no-relative -e "ssh -p %s" --files-from=%s %s@%s:/ %s',
+               remotePort, tmpFile, remoteUser, remoteHost, destDir
             )
 
             print("Syncing photos for " .. dateFolder .. "...")
