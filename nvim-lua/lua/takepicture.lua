@@ -32,7 +32,7 @@ local function take_photo()
   end, 1500)  -- ~1.5 seconds after launch
 end
 
-local function sync_photos()
+function M.sync_photos()
   local dest = vim.fn.expand("~/conference_photos/" .. today_dir() .. "/")
   vim.fn.mkdir(dest, "p")
 
@@ -55,7 +55,7 @@ function M.take_picture()
   take_photo()
 
   -- sync after phone saves image
-  vim.defer_fn(sync_photos, 1500)
+  vim.defer_fn(M.sync_photos, 1500)
 end
 
 function M.setup()
