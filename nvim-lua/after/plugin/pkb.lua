@@ -1,4 +1,5 @@
-local pkb = require("pkb_notifier")
+require("pkb").setup()
+local pkb = require("pkb.notifier")
 
 -- run once at startup
 vim.defer_fn(function()

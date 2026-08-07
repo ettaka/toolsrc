@@ -58,6 +58,10 @@ vim.pack.add({
   },
 })
 
+vim.pack.add({
+  { src = "https://github.com/ettaka/pkb" },
+})
+
 -- =========================
 -- CONFIGURATION (AFTER LOAD)
 -- =========================
