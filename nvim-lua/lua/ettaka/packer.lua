@@ -49,9 +49,23 @@ vim.pack.add({
     { src = "https://github.com/dhruvasagar/vim-table-mode" },
 })
 
+vim.pack.add({
+  'https://github.com/nvim-lua/plenary.nvim',
+  'https://github.com/MunifTanjim/nui.nvim',
+  'https://github.com/MeanderingProgrammer/render-markdown.nvim',
+  {
+    src = 'https://github.com/yetone/avante.nvim', -- need to run `cd "$(find ~/.local/share/nvim -type d -name "avante.nvim" 2>/dev/null | head -n 1)" && make` to install avante binary
+  },
+})
+
 -- =========================
 -- CONFIGURATION (AFTER LOAD)
 -- =========================
+
+-- Configure render-markdown
+require('render-markdown').setup({
+  file_types = { "markdown", "Avante" },
+})
 
 -- Colorscheme
 vim.g.everforest_background = "medium"
