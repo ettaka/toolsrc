@@ -1,4 +1,9 @@
-require("pkb").setup()
+require("pkb").setup({
+  pkb_root = "/home/eelis/pkb",
+  device_is_phone = false,
+  default_notify = "15min",
+  poll_interval = 30000, -- 15 seconds
+})
 local pkb = require("pkb.notifier")
 
 -- run once at startup
