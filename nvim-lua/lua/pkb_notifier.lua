@@ -232,7 +232,7 @@ local function show_next_popup()
 end
 
 ---------------------------------------------------------------
--- TERMUX NOTIFICATION
+-- SCAN & PARSING
 ---------------------------------------------------------------
 local function phone_notify(entry)
   vim.fn.jobstart({
