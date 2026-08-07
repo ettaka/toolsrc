@@ -11,7 +11,7 @@ M.PKB_ROOT = "/data/data/com.termux/files/home/pkb"  -- <<< change this
 M.DEFAULT_NOTIFY = "15min"
 M.POLL_INTERVAL = 30000        -- Poll every 30 seconds (ms)
 M.SNOOZE_INTERVAL = 30 * 60    -- Auto-snooze for 30 minutes (seconds) when closed with [q]
-M.DEVICE_IS_PHONE = false
+M.DEVICE_IS_PHONE = true
 
 ---------------------------------------------------------------
 -- STATE
@@ -232,7 +232,49 @@ local function show_next_popup()
 end
 
 ---------------------------------------------------------------
--- SCAN & PARSING
+-- TERMUX NOTIFICATION
+---------------------------------------------------------------
+local function phone_notify(entry)
+  vim.fn.jobstart({
+    "termux-notification",
+    "--title", "PKB Reminder",
+    "--content",
+    string.format(
+      "%s\nDue: %s",
+      entry.line,
+      os.date("%H:%M", entry.due_ts)
+    ),
+  }, {
+    detach = true,
+  })
+end
+
+---------------------------------------------------------------
+-- SCHEDULING
+---------------------------------------------------------------
+local function schedule_notification(entry)
+  local delay = entry.notify_ts - os.time()
+  if delay < 0 then delay = 0 end
+
+  vim.defer_fn(function()
+    if entry.dismissed then
+      return
+    end
+
+    entry.triggered = true
+
+    -- Android notification
+    phone_notify(entry)
+
+    -- Neovim popup
+    table.insert(M.popup_queue, entry)
+    show_next_popup()
+
+  end, delay * 1000)
+end
+
+---------------------------------------------------------------
+-- PARSE LINE
 ---------------------------------------------------------------
 local function parse_line(line, line_num, file, new_state)
   local due_str = line:match("due::([^%s]+)")
@@ -243,6 +285,9 @@ local function parse_line(line, line_num, file, new_state)
   if not due_ts then return end
 
   local notify_ts = due_ts - parse_notify(notify_str)
+  if not line_num then 
+      return 
+  end
   local id = string.format("%s:%d", file, line_num)
 
   -- Preserve existing state across rescans
