@@ -1,4 +1,9 @@
-vim.g.mapleader = ","
+local DEVICE_IS_PHONE = false
+if DEVICE_IS_PHONE then
+  vim.g.mapleader = ","
+else
+  vim.g.mapleader = "\\"
+end
 
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
