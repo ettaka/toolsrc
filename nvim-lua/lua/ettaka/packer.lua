@@ -85,5 +85,8 @@ require("lualine").setup()
 -- DAP UI
 require("dapui").setup()
 
--- (Optional) Alpha
--- require("alpha").setup(require("alpha.themes.dashboard").config)
+-- nvim-web-devicons
+require('nvim-web-devicons').setup({
+  default = true,
+})
+
