@@ -1,4 +1,4 @@
-local DEVICE_IS_PHONE = false
+local DEVICE_IS_PHONE = true
 if DEVICE_IS_PHONE then
   vim.g.mapleader = ","
 else

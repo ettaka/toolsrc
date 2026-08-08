@@ -1,8 +1,8 @@
 require("pkb").setup({
-  pkb_root = "/home/eelis/pkb",
-  device_is_phone = false,
+  pkb_root = "/data/data/com.termux/files/home/pkb",
+  device_is_phone = true,
   default_notify = "15min",
-  poll_interval = 30000, -- 15 seconds
+  poll_interval = 30000, -- 30 seconds
 })
 local pkb = require("pkb.notifier")
 
