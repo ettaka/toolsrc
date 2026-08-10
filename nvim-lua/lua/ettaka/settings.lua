@@ -1,4 +1,8 @@
-local DEVICE_IS_PHONE = true
+local DEVICE_IS_PHONE = vim.env.DEVICE_IS_PHONE == "true"
+if not vim.env.DEVICE_IS_PHONE then
+    print("settings.lua:Warning! $DEVICE_IS_PHONE environment variable is not found!")
+end
+
 if DEVICE_IS_PHONE then
   vim.g.mapleader = ","
 else

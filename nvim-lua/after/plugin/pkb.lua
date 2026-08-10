@@ -1,6 +1,14 @@
+local PKB_ROOT = vim.env.PKB_ROOT
+if not vim.env.PKB_ROOT then
+    print("pkb.lua:Warning! $PKB_ROOT environment variable is not found!")
+end
+local DEVICE_IS_PHONE = vim.env.DEVICE_IS_PHONE == "true"
+if not vim.env.DEVICE_IS_PHONE then
+    print("pkb.lua:Warning! $DEVICE_IS_PHONE environment variable is not found!")
+end
 require("pkb").setup({
-  pkb_root = "/data/data/com.termux/files/home/pkb",
-  device_is_phone = true,
+  pkb_root = PKB_ROOT,
+  device_is_phone = DEVICE_IS_PHONE,
   default_notify = "15min",
   poll_interval = 30000, -- 30 seconds
 })

@@ -3,13 +3,10 @@
 -- ===============================
 
 -- CONFIG: set this to your PKB root folder
-DEVICE_IS_PHONE = false
-if DEVICE_IS_PHONE then
-  local PKB_ROOT = "/data/data/com.termux/files/home/pkb"  -- <<< change this
-else
-  local PKB_ROOT = "/home/eelis/pkb"  -- <<< change this to your vault/root
+local PKB_ROOT = vim.env.PKB_ROOT
+if not vim.env.PKB_ROOT then
+    print("task_navigation.lua:Warning! $PKB_ROOT environment variable is not found!")
 end
-
 local TASK_ID_REGEX = "t%-%d%d%d%d%-%d%d%-%d%dT%d%d:%d%d"
 
 -- get full task ID under cursor or first on line
