@@ -1,5 +1,4 @@
 require("ettaka")
 require("pkb_sync")
-require("calendar")
 require("takepicture").setup()
 require("sync_photos")

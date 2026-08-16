@@ -59,7 +59,8 @@ vim.pack.add({
 })
 
 vim.pack.add({
-  { src = "https://github.com/ettaka/pkb-nvim" },
+      "https://github.com/ettaka/pkb-nvim",
+      "https://github.com/ettaka/calendar-nvim",
 })
 
 -- =========================
