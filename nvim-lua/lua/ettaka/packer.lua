@@ -62,6 +62,9 @@ vim.pack.add({
       "https://github.com/ettaka/pkb-nvim",
       "https://github.com/ettaka/calendar-nvim",
 })
+require("calendar").setup({
+  get_tasks_duration = require("pkb.effort_calculation").get_tasks_duration,
+})
 
 -- =========================
 -- CONFIGURATION (AFTER LOAD)

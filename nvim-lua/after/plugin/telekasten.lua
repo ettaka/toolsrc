@@ -3,7 +3,8 @@ require('telekasten').setup({
   template_new_note = vim.fn.expand("~/pkb/templates/template.md"),
   template_new_daily = vim.fn.expand("~/pkb/templates/daily.md"),
   template_new_weekly = vim.fn.expand("~/pkb/templates/weekly.md"),
-  template_new_monthly = vim.fn.expand("~/pkb/templates/monthly.md")
+  template_new_monthly = vim.fn.expand("~/pkb/templates/monthly.md"),
+  auto_set_filetype = false, 
 })
 
 -- Launch panel if nothing is typed after <leader>z
@@ -19,3 +20,8 @@ vim.keymap.set("n", "<leader>zc", "<cmd>Telekasten show_calendar<CR>")
 vim.keymap.set("n", "<leader>zb", "<cmd>Telekasten show_backlinks<CR>")
 vim.keymap.set("n", "<leader>zI", "<cmd>Telekasten insert_img_link<CR>")
 vim.keymap.set("n", "<leader>zt", "<cmd>Telekasten search_notes<CR><esc>diwi- \\[ \\].*#task.*#work")
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "telekasten",
+  command = "set syntax=markdown",
+})

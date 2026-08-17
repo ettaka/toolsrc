@@ -2,8 +2,8 @@ require('avante').setup({
   provider = "gemini",
   providers = {
     gemini = {
---      model = "gemini-3.6-flash", -- Gemini 3.6 Flash workhorse model
-      model = "gemini-3.5-flash-lite", -- Temporary swap while 3.6 Flash quota resets
+      model = "gemini-3.6-flash", -- Gemini 3.6 Flash workhorse model
+--      model = "gemini-3.5-flash-lite", -- Temporary swap while 3.6 Flash quota resets
       timeout = 30000,
       disable_tools = true, -- Disables background tool loops for fast, direct text answers
     },
