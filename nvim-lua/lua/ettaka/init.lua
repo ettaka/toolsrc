@@ -1,5 +1,5 @@
+require("ettaka.settings")
 require("ettaka.mappings")
 require("ettaka.packer")
-require("ettaka.settings")
 require("ettaka.kqcircuits")
 require("ettaka.clipboard")
