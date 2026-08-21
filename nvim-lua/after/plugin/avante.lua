@@ -7,6 +7,13 @@ require('avante').setup({
       timeout = 30000,
       disable_tools = true, -- Disables background tool loops for fast, direct text answers
     },
+    openai = {
+      endpoint = "https://openai.com",
+      model = "gpt-5.6", 
+      timeout = 30000, 
+      --temperature = 0,
+      --max_tokens = 4096,
+    },
   },
 
 -- Override Avante's default prompt to strip out all tool/completion references
