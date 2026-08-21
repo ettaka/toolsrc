@@ -43,6 +43,12 @@ function M.insert_location()
 
     local row, col = unpack(vim.api.nvim_win_get_cursor(0))
     local line = vim.api.nvim_get_current_line()
+    local mode = vim.api.nvim_get_mode().mode
+
+    -- In Normal mode, shift col by 1 to insert after the cursor character
+    if mode:sub(1, 1) == "n" and #line > 0 then
+        col = col + 1
+    end
 
     local new_line =
         line:sub(1, col) ..
@@ -76,11 +82,11 @@ vim.api.nvim_create_user_command("WikiRef", function()
     M.toggle()
 end, {})
 
-vim.keymap.set("n", "<leader>wm", M.mark_location, {
+vim.keymap.set({"n", "i"}, "<leader>wm", M.mark_location, {
     desc = "Mark current wiki location",
 })
 
-vim.keymap.set("n", "<leader>wi", M.insert_location, {
+vim.keymap.set({"n", "i"}, "<leader>wi", M.insert_location, {
     desc = "Insert marked wiki reference",
 })
 
