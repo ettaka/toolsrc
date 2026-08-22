@@ -59,6 +59,10 @@ vim.pack.add({
 })
 
 vim.pack.add({
+      "https://github.com/ettaka/timestamps-nvim",
+})
+
+vim.pack.add({
       "https://github.com/ettaka/pkb-nvim",
       "https://github.com/ettaka/calendar-nvim",
 })
