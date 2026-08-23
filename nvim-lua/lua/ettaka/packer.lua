@@ -77,6 +77,15 @@ require("calendar").setup({
 -- Configure render-markdown
 require('render-markdown').setup({
   file_types = { "markdown", "Avante" },
+  -- 1. Ensure Insert mode ('i') is included so rendering stays active globally
+  render_modes = { 'n', 'c', 't', 'i', 'v', 'V' }, 
+  
+  -- 2. Enable anti-conceal so the line under your cursor safely un-conceals
+  anti_conceal = {
+      enabled = true,
+      above = 0, -- Only un-conceal the exact cursor line
+      below = 0,
+  },
 })
 
 -- Colorscheme
