@@ -6,17 +6,18 @@ local DEVICE_IS_PHONE = vim.env.DEVICE_IS_PHONE == "true"
 if not vim.env.DEVICE_IS_PHONE then
     print("pkb.lua:Warning! $DEVICE_IS_PHONE environment variable is not found!")
 end
-require("pkb").setup({
+notifier = require("pkb.notifier")
+notifier.setup({
   pkb_root = PKB_ROOT,
   device_is_phone = DEVICE_IS_PHONE,
   default_notify = "15min",
   poll_interval = 30000, -- 30 seconds
+  default_horizon = 180
 })
-local pkb = require("pkb.notifier")
 
 -- run once at startup
 vim.defer_fn(function()
-  pkb.notify()
+  notifier.notify()
 end, 100)
 
 local timer
@@ -38,7 +39,7 @@ vim.api.nvim_create_autocmd("BufWritePost", {
     end
 
     timer = vim.defer_fn(function()
-      pkb.notify()
+      notifier.notify()
     end, 500)
   end,
 })
