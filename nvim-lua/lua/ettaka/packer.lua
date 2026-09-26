@@ -53,6 +53,8 @@ vim.pack.add({
   'https://github.com/nvim-lua/plenary.nvim',
   'https://github.com/MunifTanjim/nui.nvim',
   'https://github.com/MeanderingProgrammer/render-markdown.nvim',
+  "https://github.com/ColinKennedy/mega.logging",
+  "https://github.com/ColinKennedy/mega.cmdparse",
   {
     src = 'https://github.com/yetone/avante.nvim', -- need to run `cd "$(find ~/.local/share/nvim -type d -name "avante.nvim" 2>/dev/null | head -n 1)" && make` to install avante binary
   },
@@ -68,6 +70,7 @@ vim.pack.add({
 })
 require("calendar").setup({
   get_tasks_duration = require("pkb.effort_calculation").get_tasks_duration,
+  get_day_agenda = require("pkb.agenda_provider").get_pkb_day_agenda,
 })
 
 -- =========================
