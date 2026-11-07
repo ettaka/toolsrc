@@ -1,14 +1,16 @@
+local PKB_ROOT = vim.fn.expand(vim.env.PKB_ROOT or "~/pkb")
+
 require('telekasten').setup({
-  home = vim.fn.expand("~/pkb"),
-  template_new_note = vim.fn.expand("~/pkb/templates/template.md"),
-  template_new_daily = vim.fn.expand("~/pkb/templates/daily.md"),
-  template_new_weekly = vim.fn.expand("~/pkb/templates/weekly.md"),
-  template_new_monthly = vim.fn.expand("~/pkb/templates/monthly.md"),
+  home = PKB_ROOT,
+  template_new_note = PKB_ROOT .. "/templates/template.md",
+  template_new_daily = PKB_ROOT .. "/templates/daily.md",
+  template_new_weekly = PKB_ROOT .. "/templates/weekly.md",
+  template_new_monthly = PKB_ROOT .. "/templates/monthly.md",
   auto_set_filetype = false, 
 })
 
--- Launch panel if nothing is typed after <leader>z
-vim.keymap.set("n", "<leader>z", "<cmd>Telekasten panel<CR>")
+-- Telekasten panel (not plain <leader>z: that would wait for the timeout before every <leader>z... map)
+vim.keymap.set("n", "<leader>zp", "<cmd>Telekasten panel<CR>", { desc = "Telekasten panel" })
 
 -- Most used functions
 vim.keymap.set("n", "<leader>zf", "<cmd>Telekasten find_notes<CR>")

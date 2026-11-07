@@ -62,21 +62,32 @@ local function compute_transitions(events)
   return results
 end
 
+-- Lines of the current visual selection. While a visual-mode mapping runs, '< and '> still hold the
+-- previous selection, so use the "v" position and the cursor; fall back to the marks otherwise.
 local function get_visual_lines()
-  local start_line = vim.fn.line("'<")
-  local end_line   = vim.fn.line("'>")
-  return vim.api.nvim_buf_get_lines(
-    0,
-    start_line - 1,
-    end_line,
-    false
-  )
+  local first, last
+  if vim.fn.mode():match("^[vV\22]") then
+    first, last = vim.fn.line("v"), vim.fn.line(".")
+  else
+    first, last = vim.fn.line("'<"), vim.fn.line("'>")
+  end
+  if first > last then first, last = last, first end
+  return vim.api.nvim_buf_get_lines(0, first - 1, last, false)
 end
 
+-- Report the time between consecutive depart::/at::/arrive:: timestamps in the selection
+-- (only the accepted transitions above, e.g. depart -> arrive).
 local function report_visual_log_durations()
-  print ("hello!")
-
-  --vim.notify(table.concat(output, "\n"), vim.log.levels.INFO)
+  local transitions = compute_transitions(extract_events(get_visual_lines()))
+  if #transitions == 0 then
+    vim.notify("No timed transitions (depart/at/arrive) in the selection", vim.log.levels.WARN)
+    return
+  end
+  local output = {}
+  for _, t in ipairs(transitions) do
+    table.insert(output, string.format("%s → %s: %s", t.from, t.to, t.duration))
+  end
+  vim.notify(table.concat(output, "\n"), vim.log.levels.INFO)
 end
 
 vim.keymap.set(

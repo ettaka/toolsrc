@@ -7,35 +7,9 @@ local PKB_ROOT = vim.env.PKB_ROOT
 if not vim.env.PKB_ROOT then
     print("task_navigation.lua:Warning! $PKB_ROOT environment variable is not found!")
 end
-local TASK_ID_REGEX = "t%-%d%d%d%d%-%d%d%-%d%dT%d%d:%d%d"
 
--- get full task ID under cursor or first on line
-local function get_task_id_under_cursor()
-  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-  local line = vim.api.nvim_buf_get_lines(0, row - 1, row, false)[1]
-  if not line then return nil end
-
-  -- find all task IDs on the line
-  local matches = {}
-  for start_pos, match in line:gmatch("()(" .. TASK_ID_REGEX .. ")") do
-    local end_pos = start_pos + #match - 1
-    table.insert(matches, {start = start_pos, finish = end_pos, id = match})
-  end
-
-  if #matches == 0 then return nil end
-
-  local cursor_pos = col + 1 -- Lua 1-indexed
-
-  -- find the match containing cursor
-  for _, m in ipairs(matches) do
-    if cursor_pos >= m.start and cursor_pos <= m.finish then
-      return m.id
-    end
-  end
-
-  -- fallback: return first match
-  return matches[1].id
-end
+-- The task id format (t-YYYY-MM-DDTHH:MM, written in a task as task::<id>) is defined in pkb-nvim.
+local ids = require("pkb.task_id")
 
 -- Telescope search for task definition
 local function jump_to_task_definition()
@@ -45,16 +19,14 @@ local function jump_to_task_definition()
     return
   end
 
-  local task_id = get_task_id_under_cursor()
+  local task_id = ids.under_cursor()
   if not task_id then
     vim.notify("No task ID under cursor", vim.log.levels.WARN)
     return
   end
 
-  local search_str = "task::" .. task_id
-
   telescope.grep_string({
-    search = search_str,
+    search = ids.tag(task_id),
     cwd = PKB_ROOT,
     prompt_title = "Task definition: " .. task_id,
   })
@@ -65,7 +37,7 @@ local function task_backlinks()
   local ok, telescope = pcall(require, "telescope.builtin")
   if not ok then return end
 
-  local task_id = get_task_id_under_cursor()
+  local task_id = ids.under_cursor()
   if not task_id then
     vim.notify("No task ID under cursor", vim.log.levels.WARN)
     return
@@ -78,14 +50,13 @@ local function task_backlinks()
   })
 end
 
--- insert a new task ID at cursor
+-- insert a new task ID at cursor (unique among known tasks and this buffer)
 local function insert_new_task_id()
-  local ts = vim.fn.strftime("%Y-%m-%dT%H:%M")
-  vim.api.nvim_put({ "task::t-" .. ts }, "", true, true)
+  local id = require("pkb.notifier").new_task_id(vim.api.nvim_buf_get_lines(0, 0, -1, false))
+  vim.api.nvim_put({ ids.tag(id) }, "", true, true)
 end
 
 -- mappings
 vim.keymap.set("n", "<leader>jt", jump_to_task_definition, { desc = "Jump to task definition (Telescope)" })
 vim.keymap.set("n", "<leader>tb", task_backlinks, { desc = "Task backlinks (Telescope)" })
 vim.keymap.set("i", "<C-t>", insert_new_task_id, { desc = "Insert new task ID" })
-

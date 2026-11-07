@@ -15,7 +15,7 @@ vim.lsp.config['pyright'] = {
 
   settings = {
     python = {
-    pythonPath = "/home/eelis/miniconda3/envs/kqcircuits/bin/python",
+    pythonPath = vim.fn.expand("~/miniconda3/envs/kqcircuits/bin/python"),
       analysis = {
         typeCheckingMode = "basic",
         autoSearchPaths = true,  -- make Pyright search sys.path automatically

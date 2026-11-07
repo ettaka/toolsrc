@@ -6,7 +6,7 @@ local DEVICE_IS_PHONE = vim.env.DEVICE_IS_PHONE == "true"
 if not vim.env.DEVICE_IS_PHONE then
     print("pkb.lua:Warning! $DEVICE_IS_PHONE environment variable is not found!")
 end
-notifier = require("pkb.notifier")
+local notifier = require("pkb.notifier")
 notifier.setup({
   pkb_root = PKB_ROOT,
   device_is_phone = DEVICE_IS_PHONE,
@@ -20,27 +20,13 @@ vim.defer_fn(function()
   notifier.notify()
 end, 100)
 
-local timer
-
+-- Rescan just the saved note. pkb-nvim batches saves within 500 ms and ignores files outside PKB_ROOT.
 vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = "*.md",
   callback = function(args)
     local path = vim.api.nvim_buf_get_name(args.buf)
-    if path == "" then return end
-
-    local pkb_root = vim.fn.expand("~/pkb")
-
-    if not path:find(pkb_root, 1, true) then
-      return
+    if path ~= "" then
+      notifier.queue_rescan(path)
     end
-
-    if timer then
-      timer:stop()
-    end
-
-    timer = vim.defer_fn(function()
-      notifier.notify()
-    end, 500)
   end,
 })
-

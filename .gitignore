@@ -1,3 +1,4 @@
 install-oh-my-zsh.sh
 *.swp
 
+__pycache__/

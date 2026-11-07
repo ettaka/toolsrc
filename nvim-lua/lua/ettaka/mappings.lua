@@ -1,5 +1,5 @@
 vim.keymap.set("n", "<leader>ev", function () vim.cmd("vsp ~/.config/nvim/") end)
-vim.keymap.set("n", "<leader>a", function () vim.cmd("vsp"); vim.cmd("Alpha") end)
+vim.keymap.set("n", "<leader>A", function () vim.cmd("vsp"); vim.cmd("Alpha") end, { desc = "Alpha dashboard in a split" })
 vim.keymap.set("n", "<C-h>", "`A")
 vim.keymap.set("n", "<C-j>", "`S")
 vim.keymap.set("n", "<C-k>", "`D")
@@ -13,7 +13,12 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 vim.env.PATH=vim.env.PATH..":"..vim.env.HOME.."/.config/nvim/bin/"
 
 -- Define a kqc command
-vim.cmd('command! -nargs=0 Kqc execute "!klayout -e -rm /home/eelis/git/KQCircuits/util/create_element_from_path.py -rd element_path=" . expand("%:p") | redraw!')
+local KQC = vim.env.KQC or vim.fn.expand("~/git/KQCircuits") -- $KQC is set in zsh/set_kqcircuits.sh
+vim.api.nvim_create_user_command("Kqc", function()
+  vim.cmd("!klayout -e -rm " .. vim.fn.shellescape(KQC .. "/util/create_element_from_path.py")
+    .. " -rd element_path=" .. vim.fn.shellescape(vim.fn.expand("%:p")))
+  vim.cmd("redraw!")
+end, { nargs = 0 })
 -- Create a mapping to run the kqc command
 vim.cmd("nnoremap <leader>kqc :Kqc<CR>")
 

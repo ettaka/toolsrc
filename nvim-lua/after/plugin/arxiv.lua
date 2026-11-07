@@ -1,3 +1,6 @@
+-- Local folder for arXiv PDFs, inside the PKB.
+local PDF_DIR = vim.fn.expand(vim.env.PKB_ROOT or "~/pkb") .. "/papers/pdfs/"
+
 vim.keymap.set("n", "<leader>ap", function()
   local text = vim.fn.expand("<cWORD>")
 
@@ -14,7 +17,7 @@ vim.keymap.set("n", "<leader>ap", function()
     return
   end
 
-  local dir = vim.fn.expand("~/pkb/papers/pdfs/")
+  local dir = PDF_DIR
   vim.fn.mkdir(dir, "p")
 
   local filepath = dir .. id:gsub("/", "_") .. ".pdf"
@@ -28,9 +31,9 @@ vim.keymap.set("n", "<leader>ap", function()
   vim.notify("Downloaded " .. id)
 end)
 
-vim.keymap.set("n", "<leader>as", function()
-  local local_dir = vim.fn.expand("~/pkb/papers/pdfs/")
-  local remote_dir = "~/pkb/papers/pdfs/"
+vim.keymap.set("n", "<leader>aS", function() -- <leader>as is avante's "toggle suggestions"
+  local local_dir = PDF_DIR
+  local remote_dir = "~/pkb/papers/pdfs/" -- on the phone (Termux, over ssh), not this machine's $PKB_ROOT
   local remote = "user@localhost"
   local rsync_opts = "-avz --ignore-existing --partial -e 'ssh -p 8022'"
 

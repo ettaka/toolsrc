@@ -69,7 +69,9 @@ def create_nvim_conf_path():
 
 def create_nvim_init_symlink():
     print("Creating a symbolic link", nvim_init_path, "to target", nvim_init_target, "...", end=' ') 
-    if not os.path.isfile(nvim_init_path):
+    # lexists, not isfile: the target is a directory, and a second `ln -s` into an existing directory
+    # link would create a nested nvim-lua/nvim-lua link
+    if not os.path.lexists(nvim_init_path):
             e('ln -s ' + nvim_init_target + ' ' + nvim_init_path)
             print()
     else:
@@ -83,7 +85,8 @@ def install_nvim_appimage(install_path):
     if not os.path.isfile(install_path + '/nvim.appimage'):
         print()
         try:
-            e('curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage')
+            # latest stable release (the config uses vim.pack, which needs nvim >= 0.12)
+            e('curl -L -o nvim.appimage https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage')
         except:
             print("Problem with fetching, check if curl works accordingly.")
             exit()
@@ -116,17 +119,9 @@ def install_vim_plug():
         print("A problem with fetching the vim.plug file")
         exit()
 
-def install_packer():
-    require('git')
-    try:
-        e('git clone --depth 1 https://github.com/wbthomason/packer.nvim {}/.local/share/nvim/site/pack/packer/start/packer.nvim'.format(home_dir))
-    except:
-        print("Problems with cloning https://github.com/wbthomason/packer.nvim")
-        print("Please check the URL.")
-
 def set_tmux_conf_symlink():
     print("Setting tmux config file symlink", tmux_conf_path, "target to", tmux_conf_target, "...", end=' ')
-    if os.path.isfile(tmux_conf_path):
+    if os.path.lexists(tmux_conf_path):
         print("already set")
     else:
         e('ln -s ' + tmux_conf_target + ' ' + tmux_conf_path)
@@ -188,20 +183,24 @@ def set_shellrc(shell='bash'):
 
 def set_i3_config_symlink():
     print("Setting i3 config file symlink", i3_config_path, "target to", i3_config_target, "...", end=' ')
-    if os.path.isfile(i3_config_path):
+    if os.path.lexists(i3_config_path):
         print("Already set. Removing...")
         e('rm ' + i3_config_path)
     e('ln -s ' + i3_config_target + ' ' + i3_config_path)
     print()
 
-create_nvim_conf_path()
-create_nvim_init_symlink()
-install_nvim_appimage(nvim_install_dir)
-if vimscript:
-    install_vim_plug()
-else:
-    install_packer()
-set_tmux_conf_symlink()
-set_shellrc('bash')
-set_shellrc('zsh')
-set_i3_config_symlink()
+def main():
+    create_nvim_conf_path()
+    create_nvim_init_symlink()
+    install_nvim_appimage(nvim_install_dir)
+    if vimscript:
+        install_vim_plug()
+    # (Lua config: plugins are installed by vim.pack on first start, no plugin manager needed)
+    set_tmux_conf_symlink()
+    set_shellrc('bash')
+    set_shellrc('zsh')
+    set_i3_config_symlink()
+
+
+if __name__ == "__main__":
+    main()

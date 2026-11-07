@@ -1,6 +1,6 @@
 local float_terms = {}
 
-function ToggleFloatTerm()
+local function ToggleFloatTerm()
   local cur_buf = vim.api.nvim_get_current_buf()
 
   -- If we're in a terminal, find its owner

@@ -60,15 +60,26 @@ vim.pack.add({
   },
 })
 
-vim.pack.add({
-      "https://github.com/ettaka/timestamps-nvim",
-})
-
-vim.pack.add({
-      "https://github.com/ettaka/pkb-nvim",
-      "https://github.com/ettaka/calendar-nvim",
-})
+-- PKB plugin stack (timestamps-nvim <- pkb-nvim <- calendar-nvim).
+-- Set $PKB_DEV_DIR (e.g. ~/pkb-dev) to load local working clones instead of
+-- the GitHub copies managed by vim.pack. Missing local clones fall back to GitHub.
+local pkb_plugins = { "timestamps-nvim", "pkb-nvim", "calendar-nvim" }
+local pkb_dev_dir = vim.env.PKB_DEV_DIR and vim.fn.expand(vim.env.PKB_DEV_DIR)
+local pkb_from_github = {}
+for _, name in ipairs(pkb_plugins) do
+  local local_path = pkb_dev_dir and (pkb_dev_dir .. "/" .. name)
+  if local_path and vim.fn.isdirectory(local_path) == 1 then
+    -- plugin/ files of rtp entries added here are sourced in the normal startup plugin phase
+    vim.opt.runtimepath:prepend(local_path)
+  else
+    table.insert(pkb_from_github, "https://github.com/ettaka/" .. name)
+  end
+end
+if #pkb_from_github > 0 then
+  vim.pack.add(pkb_from_github)
+end
 require("calendar").setup({
+  keymap = "<leader>cc", -- not <leader>c: LSP's <leader>ca would make it wait for the timeout
   get_tasks_duration = require("pkb.effort_calculation").get_tasks_duration,
   get_day_agenda = require("pkb.agenda_provider").get_pkb_day_agenda,
 })
