@@ -10,7 +10,7 @@ local notifier = require("pkb.notifier")
 notifier.setup({
   pkb_root = PKB_ROOT,
   device_is_phone = DEVICE_IS_PHONE,
-  default_notify = "15min",
+  default_notify = "30min", -- then 15, 10, 5 and 0 min before due, then every 30 min when snoozed
   poll_interval = 30000, -- 30 seconds
   default_horizon = 180
 })

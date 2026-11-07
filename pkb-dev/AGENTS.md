@@ -23,8 +23,8 @@ notes on the desktop and the phone depend on it, so a change must stay backward 
 | Tag | Meaning | Parsed in |
 |---|---|---|
 | `due::2026-11-10T08:00H` | Due time. Suffix is required, always a fixed offset: `Z` (UTC), `H` (`+02:00`, home standard time), `S` (`+03:00`, home summer time) or `±hh:mm`. New timestamps get the suffix of the offset at that moment. | `timestamps/parser.lua` `parse_iso` |
-| `notify::15min` / `2h` / `1day` | Notify this long before `due`. Default: `default_notify`. | `pkb/parser.lua` `parse_notify` |
-| `recur::daily` / `3d` / `2w` / `monthly` / `yearly` / `1st_tue` / `last_fri` | Recurrence. On complete or skip the next instance is written as a new line below. | `pkb/parser.lua` |
+| `notify::15min` / `2h` / `1day` | First reminder this long before `due` (default `default_notify`, 30min). Snoozing wakes at the follow-ups (`remind_before`: 15, 10, 5 and 0 min before due), then every `snooze_interval` (30 min). | `pkb/parser.lua` `parse_notify` |
+| `recur::daily` / `3d` / `2w` / `3m` / `3months` / `yearly` / `1st_tue` / `last_fri` | Recurrence. On complete or skip the next instance is written as a new line below. An unknown rule warns once and the task is not repeated (complete/skip refuse it). | `pkb/parser.lua` |
 | `effort::30min` / `2h` / `1day` | Planned effort, summed per day for the calendar marks. | `pkb/effort_calculation.lua`, `pkb/render.lua` |
 | `task::t-2026-11-07T09:15` | Stable task ID; the toolsrc `<leader>jt` / `<leader>tb` keymaps navigate by it. | `toolsrc/nvim-lua/after/plugin/task_navigation.lua`, `pkb/notifier.lua` |
 | `old::<ts>` + `done::<ts>` / `skipped::<ts>` | Written when a task is completed or skipped (`due::` is renamed to `old::`). | `pkb/notifier.lua` |
@@ -39,7 +39,7 @@ are logged there.
   across rescans, state follows the task by text or `task::` id, not by line number. It contains
   `setup`, `notify()` (full rescan and timer start), `inbox()`, `complete_task` and `skip_task`.
 - `pkb/parser.lua`: line and directory scanning, recurrence math, and the daily-note insertion point.
-- `pkb/ui.lua`: the digest popup and auto-snooze. `pkb/render.lua` renders the inbox (effort and conflict detection).
+- `pkb/ui.lua`: the digest popup; `[q]` snoozes each task until `notifier.snooze_until(entry, now)`. `pkb/render.lua` renders the inbox (effort and conflict detection).
 - `pkb/task_id.lua`: the task id format (`t-YYYY-MM-DDTHH:MM`, tagged `task::<id>`), generation and lookup.
 - `pkb/termux_notification.lua`: Android notifications through `termux-notification`, used when `device_is_phone`.
 - `pkb/render.lua` also formats inbox lines (`time_slot`, `display_text`). `notifier.open_day` and
