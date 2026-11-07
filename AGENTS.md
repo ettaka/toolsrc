@@ -51,7 +51,7 @@ These variables are set outside this repo, in the machine-local shell rc:
 |---|---|
 | `<leader>a…` | avante (`aa`, `ae`, `at`, `as`, …); `aS` arxiv PDF sync, `ap` arxiv download |
 | `<leader>A` | Alpha dashboard in a split |
-| `<leader>cc` | calendar (calendar-nvim `setup{keymap}`); `<leader>ca` is the LSP code action |
+| `<leader>c` | calendar, also in insert mode (calendar-nvim `setup{keymap, insert_mappings}`); `<leader>ca` is the LSP code action, so in LSP buffers `<leader>c` waits for the timeout |
 | `<leader>f…` | Telescope (`ff`, `fg`, `fb`, `fh`); `<leader>f` alone formats in LSP buffers |
 | `<leader>k…` | KQCircuits: `kl` open element, `ks` simulate, `kqc` :Kqc |
 | `<leader>t…` | tasks/time: `ts` timestamp, `td` duration, `tb` task backlinks |
@@ -77,4 +77,4 @@ work on one branch, `fixes`, on top of `master`, and push it to `origin`; the ow
 
 ## Open points
 - A few leader maps still wait for the timeout: `<leader>y`/`<leader>yy`, `<leader>p`/`<leader>pv`, and in LSP buffers
-  `<leader>f`/`<leader>ff`.
+  `<leader>f`/`<leader>ff` and `<leader>c`/`<leader>ca` (the calendar stays on `<leader>c` by choice).

@@ -78,8 +78,12 @@ end
 if #pkb_from_github > 0 then
   vim.pack.add(pkb_from_github)
 end
+require("timestamps").setup({
+  insert_mappings = true, -- <leader>ts also in insert and terminal mode
+})
 require("calendar").setup({
-  keymap = "<leader>cc", -- not <leader>c: LSP's <leader>ca would make it wait for the timeout
+  keymap = "<leader>c",   -- opens the calendar (waits for the timeout in LSP buffers, where <leader>ca exists)
+  insert_mappings = true, -- <leader>c also in insert mode
   get_tasks_duration = require("pkb.effort_calculation").get_tasks_duration,
   get_day_agenda = require("pkb.agenda_provider").get_pkb_day_agenda,
 })
