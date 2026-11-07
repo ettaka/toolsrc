@@ -44,7 +44,7 @@ eq("recur 1st_tue", ymd(p.calculate_next_due_advanced(base, "1st_tue")), "2026-1
 eq("recur last_fri", ymd(p.calculate_next_due_advanced(base, "last_fri")), "2026-11-27 09:00")
 eq("parse_notify", { p.parse_notify("15min"), p.parse_notify("2h"), p.parse_notify("1day") }, { 900, 7200, 86400 })
 
----------------------------------------------------------------- notifier scan / agenda / effort
+---------------------------------------------------------------- notifier scan / inbox day view / effort
 local tasks = root .. "/tasks.md"
 vim.fn.writefile({
   "# tasks",
@@ -63,9 +63,13 @@ local n = 0
 for _ in pairs(notifier.notifications) do n = n + 1 end
 eq("notifier finds tasks outside code blocks", n, 3)
 
-local agenda = require("pkb.agenda_provider").get_pkb_day_agenda(2026, 11, 10)
-eq("agenda excludes done tasks", #agenda, 2)
-check("agenda strips tags", agenda[1] and not agenda[1]:find("due::", 1, true), agenda)
+notifier.open_day(2026, 11, 10)
+local day = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+local row = vim.api.nvim_win_get_cursor(0)[1]
+check("inbox day view: cursor on the day", day[row] and day[row]:match("^## 2026%-11%-10"), day)
+check("inbox day view: time slot, no tags", day[row + 1] and day[row + 1]:find("08:00–08:30  Water plants", 1, true)
+  and not day[row + 1]:find("due::", 1, true), day)
+check("inbox day view: done tasks excluded", not table.concat(day, "\n"):find("Done thing", 1, true), day)
 
 local hours = require("pkb.effort_calculation").get_tasks_duration(2026, 11, 10)
 eq("effort sums open tasks", hours, 3.5)
@@ -86,10 +90,16 @@ check("daily note logged", vim.fn.filereadable(root .. "/2026-11-10.md") == 1)
 ---------------------------------------------------------------- calendar
 require("calendar").setup({
   get_tasks_duration = require("pkb.effort_calculation").get_tasks_duration,
-  get_day_agenda = require("pkb.agenda_provider").get_pkb_day_agenda,
+  open_day = notifier.open_day,
 })
 local ok, err = pcall(require("calendar").open)
 check("calendar opens headless", ok, err)
+-- `a` in the calendar: the pkb inbox opens on the selected day (today)
+ok, err = pcall(vim.fn.maparg("a", "n", false, true).callback)
+check("calendar a runs", ok, err)
+check("calendar a opens the inbox on the selected day",
+  vim.api.nvim_get_current_line() == "## " .. os.date("%Y-%m-%d")
+    or vim.api.nvim_get_current_line():find("^## " .. os.date("%Y%%-%m%%-%d")), vim.api.nvim_get_current_line())
 
 if notifier.timer then notifier.timer:stop(); notifier.timer:close() end
 

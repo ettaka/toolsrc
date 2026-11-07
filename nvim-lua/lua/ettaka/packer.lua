@@ -85,7 +85,7 @@ require("calendar").setup({
   keymap = "<leader>c",   -- opens the calendar (waits for the timeout in LSP buffers, where <leader>ca exists)
   insert_mappings = true, -- <leader>c also in insert mode
   get_tasks_duration = require("pkb.effort_calculation").get_tasks_duration,
-  get_day_agenda = require("pkb.agenda_provider").get_pkb_day_agenda,
+  open_day = require("pkb.notifier").open_day, -- `a` in the calendar: PKB inbox on that day
 })
 
 -- =========================

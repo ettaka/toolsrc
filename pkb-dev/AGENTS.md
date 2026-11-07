@@ -8,8 +8,8 @@ working clone per repo:
 | Dir | Repo | Role |
 |---|---|---|
 | `timestamps-nvim/` | github.com/ettaka/timestamps-nvim | ISO timestamp parsing and insertion. No dependencies. |
-| `pkb-nvim/` | github.com/ettaka/pkb-nvim | Scans the PKB, notifications, inbox, task complete/skip, recurrence, agenda and effort providers. Requires `timestamps`. |
-| `calendar-nvim/` | github.com/ettaka/calendar-nvim | Floating month calendar with effort heat marks, agenda popup, daily note opening. Gets its data from pkb via `setup()`. Requires `timestamps`. |
+| `pkb-nvim/` | github.com/ettaka/pkb-nvim | Scans the PKB, notifications, inbox, task complete/skip, recurrence, the inbox (time slots, day view) and the effort provider. Requires `timestamps`. |
+| `calendar-nvim/` | github.com/ettaka/calendar-nvim | Floating month calendar with effort heat marks; `a` opens the selected day in the pkb inbox, `<CR>` the daily note. Gets its data from pkb via `setup()` callbacks. Requires `timestamps`. |
 | `toolsrc/` (symlink) | github.com/ettaka/toolsrc | The user's dotfiles. `nvim-lua/` loads and configures the plugins and holds PKB glue that is not in a plugin yet. |
 
 The dependency direction is `timestamps` ← `pkb` ← `calendar`, and `toolsrc` wires them together. Keep it that way:
@@ -42,7 +42,8 @@ are logged there.
 - `pkb/ui.lua`: the digest popup and auto-snooze. `pkb/render.lua` renders the inbox (effort and conflict detection).
 - `pkb/task_id.lua`: the task id format (`t-YYYY-MM-DDTHH:MM`, tagged `task::<id>`), generation and lookup.
 - `pkb/termux_notification.lua`: Android notifications through `termux-notification`, used when `device_is_phone`.
-- `pkb/agenda_provider.lua` and `pkb/effort_calculation.lua` are the providers handed to `calendar.setup()`.
+- `pkb/render.lua` also formats inbox lines (`time_slot`, `display_text`). `notifier.open_day` and
+  `effort_calculation.get_tasks_duration` are the callbacks handed to `calendar.setup()`.
 - `calendar/{init,actions,helpers,render}.lua`: the calendar window, its keymaps and the rendering.
 - `timestamps/{parser,actions}.lua`: `parse_iso` and `local_tz_suffix`, plus timestamp insertion.
 
@@ -70,7 +71,7 @@ Environment: `PKB_ROOT` (the notes dir), `DEVICE_IS_PHONE` (`"true"` on Termux; 
 - **Smoke test (headless, sandboxed):** `toolsrc/pkb-dev/test/run.sh`. It needs nvim 0.12 or newer. On the claudebot
   account use `NVIM_BIN=~/opt/nvim-linux-x86_64/bin/nvim toolsrc/pkb-dev/test/run.sh`. It uses a temporary `PKB_ROOT`,
   `TZ=Europe/Helsinki` and isolated XDG dirs, and never touches `~/pkb`. Run it after every change and add a case for
-  every behaviour you change. Tests check observable behaviour (file contents, returned agenda, epochs).
+  every behaviour you change. Tests check observable behaviour (file contents, inbox lines, epochs).
 - **Never run anything against the real `~/pkb`.** `complete_task` and `skip_task` rewrite
   files.
 - None of the repos has a linter or formatter set up yet. Match the surrounding style: 2-space indent in the plugins,
