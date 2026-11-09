@@ -125,6 +125,17 @@ Keep to these rules so they stay fixed:
 - Monthly/yearly recurrence clamps to the end of a short month, but the chain then stays on the clamped day
   (Jan 31 -> Feb 28 -> Mar 28; pinned by a test). Fixing it needs the intended day stored in the note, e.g. a new
   rule such as `recur::monthly_last`.
+- Wireless phone sync (planned). Today the laptop reaches the phone's Termux sshd (port 8022) only through
+  `adb forward` over USB. Idea, device to device only (no GitHub or other third parties):
+  - One ssh host alias `phone` whose `ProxyCommand` tries in order: USB (`adb forward tcp:8022 tcp:8022` when
+    `adb get-state` is `device`), then the phone's Wi-Fi address (a DHCP reservation on the home router, or a quick
+    scan of the subnet for port 8022), then the phone hotspot gateway when the laptop is on the hotspot.
+  - `HostKeyAlias phone` so the phone's host key is checked whatever address it was reached at.
+  - Point the PKB git remote, `sync_photos.lua` and `arxiv.lua` at `phone` instead of `localhost:8022`.
+  - Phone: Termux:Boot starts `sshd`, `termux-wake-lock`, `PasswordAuthentication no`.
+  - Considered and set aside: wireless adb (turns off on reboot or network change, random port), Tailscale (third-party
+    coordination server), self-hosted WireGuard (needs a reachable endpoint; only useful off the home network),
+    Syncthing (replaces git and can corrupt `.git`).
 - toolsrc still has a few leader maps that wait for the timeout because longer maps start with them:
   `<leader>y`/`<leader>yy` (clipboard), `<leader>p`/`<leader>pv` (clipboard paste / markdown PDF) and, in LSP buffers,
   `<leader>f`/`<leader>ff` (format / Telescope). They were left as they are.
