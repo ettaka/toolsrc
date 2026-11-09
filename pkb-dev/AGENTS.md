@@ -39,6 +39,8 @@ are logged there.
   across rescans, state follows the task by text or `task::` id, not by line number. It contains
   `setup`, `notify()` (full rescan and timer start), `inbox()`, `complete_task` and `skip_task`.
 - `pkb/parser.lua`: line and directory scanning, recurrence math, and the daily-note insertion point.
+- `pkb/export.lua`: `:PKBExport`, a fresh git repo with the pages selected by an export page (`export::<name>`,
+  seeds, depth, dates, never, forbidden words; see the pkb-nvim README).
 - `pkb/ui.lua`: the digest popup; `[q]` snoozes each task until `notifier.snooze_until(entry, now)`. `pkb/render.lua` renders the inbox (effort and conflict detection).
 - `pkb/task_id.lua`: the task id format (`t-YYYY-MM-DDTHH:MM`, tagged `task::<id>`), generation and lookup.
 - `pkb/termux_notification.lua`: Android notifications through `termux-notification`, used when `device_is_phone`.
