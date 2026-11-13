@@ -41,6 +41,8 @@ are logged there.
 - `pkb/parser.lua`: line and directory scanning, recurrence math, and the daily-note insertion point.
 - `pkb/export.lua`: `:PKBExport`, a fresh git repo with the pages selected by an export page (`export::<name>`,
   seeds, depth, dates, never, forbidden words; see the pkb-nvim README).
+- `pkb/links.lua`: follows `[text](path)` file links relative to the note (and `[[../path]]`); toolsrc's
+  `<leader>zz` tries it before Telekasten's `follow_link`.
 - `pkb/ui.lua`: the digest popup; `[q]` snoozes each task until `notifier.snooze_until(entry, now)`. `pkb/render.lua` renders the inbox (effort and conflict detection).
 - `pkb/task_id.lua`: the task id format (`t-YYYY-MM-DDTHH:MM`, tagged `task::<id>`), generation and lookup.
 - `pkb/termux_notification.lua`: Android notifications through `termux-notification`, used when `device_is_phone`.

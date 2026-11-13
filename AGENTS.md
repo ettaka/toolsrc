@@ -56,7 +56,7 @@ These variables are set outside this repo, in the machine-local shell rc:
 | `<leader>k…` | KQCircuits: `kl` open element, `ks` simulate, `kqc` :Kqc |
 | `<leader>t…` | tasks/time: `ts` timestamp, `td` duration, `tb` task backlinks |
 | `<leader>w…` | wiki references (`wm`, `wi`, `wr`) |
-| `<leader>z…` | notes: Telekasten (`zp` panel, `zf`, `zg`, `zd`, …), `zm` phone mount, `zl` time-log report (visual) |
+| `<leader>z…` | notes: Telekasten (`zp` panel, `zf`, `zg`, `zd`, …; `zz` follows file links via `pkb.links`, else Telekasten), `zm` phone mount, `zl` time-log report (visual) |
 | `<leader><space>` | floating terminal; `<leader><enter>` KQC run |
 
 ## Testing

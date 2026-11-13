@@ -101,6 +101,27 @@ check("calendar a opens the inbox on the selected day",
   vim.api.nvim_get_current_line() == "## " .. os.date("%Y-%m-%d")
     or vim.api.nvim_get_current_line():find("^## " .. os.date("%Y%%-%m%%-%d")), vim.api.nvim_get_current_line())
 
+---------------------------------------------------------------- toolsrc <leader>zz (Telekasten stubbed)
+local toolsrc = vim.fn.fnamemodify(debug.getinfo(1, "S").source:sub(2), ":p:h:h:h")
+package.loaded.telekasten = { setup = function() end }
+local telekasten_calls = {}
+vim.api.nvim_create_user_command("Telekasten", function(a) table.insert(telekasten_calls, a.args) end, { nargs = "*" })
+dofile(toolsrc .. "/nvim-lua/after/plugin/telekasten.lua")
+vim.fn.mkdir(root .. "/papers", "p")
+vim.fn.writefile({ "PDF" }, root .. "/papers/qc.pdf")
+vim.fn.mkdir(root .. "/notes", "p")
+vim.fn.writefile({ "see [qc](../papers/qc.pdf)", "and [[Water plants]]" }, root .. "/notes/links.md")
+vim.cmd.edit(root .. "/notes/links.md")
+local ui_opened
+vim.ui.open = function(path) ui_opened = path; return {}, nil end
+local zz = vim.fn.maparg("<leader>zz", "n", false, true).callback
+vim.api.nvim_win_set_cursor(0, { 1, 6 })
+zz()
+eq("<leader>zz opens a relative file link from the note's folder", ui_opened, root .. "/papers/qc.pdf")
+vim.api.nvim_win_set_cursor(0, { 2, 7 })
+zz()
+eq("<leader>zz leaves [[page]] links to Telekasten", telekasten_calls, { "follow_link" })
+
 if notifier.timer then notifier.timer:stop(); notifier.timer:close() end
 
 io.stdout:write(("pkb smoke: %d passed, %d failed\n"):format(passes, failures))
